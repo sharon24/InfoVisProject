@@ -93,11 +93,17 @@
 			console.log("calculated avgs");
 		}
 
+function callback () { 
+	console.log('all done');
+	printRanges();
+ }
+var itemsProcessed = 0;
+
 		function getData() {
 			var stateID;
 			initializeArray();
 			console.log("start getting data");
-			for (j = 1; j <= 1; j++) {  //J<129
+			for (j = 1; j <= 3; j++) {  //J<129
 				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
 					if (j == 1) {
 						max = min = data[0].polarity;
@@ -126,13 +132,19 @@
 							}
 						}
 					}
+					itemsProcessed++;
+					    if(itemsProcessed === 3) {
+     						callback();
+    					}
 				});
 			}
 			console.log("data recieved");
-			calcAvg();
+
 		}
 
 		function printRanges () {
+
+			calcAvg();			
 			console.log("min=");
 			console.log(min);
 			console.log("  max=");
@@ -147,10 +159,10 @@
 			}
 		}
 
-		getData();
-		sleep(5000).then(() => {
-			printRanges();
-		})
+		  var promise = getData();
+  			promise.then(function(data){
+  			printRanges();
+      });
 		/*$.when(getData(),printRanges()).done(function(a1,  a2) {
 			console.log("asas");
 		});*/
