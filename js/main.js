@@ -66,10 +66,6 @@
 		var polarityCountArr = [];
 		var polarityAvgArr = [];
 
-		function sleep(time) {
-			return new Promise((resolve) => setTimeout(resolve,time));
-		}
-
 		function initializeArray() {
 			for (i = 0; i <= 51; i++) {
 				polaritySumArr[i] = 0;
@@ -93,11 +89,11 @@
 			console.log("calculated avgs");
 		}
 
-function callback () { 
-	console.log('all done');
-	printRanges();
- }
-var itemsProcessed = 0;
+		function callback () { 
+			console.log('all done');
+			printRanges();
+		}
+		var itemsProcessed = 0;
 
 		function getData() {
 			var stateID;
@@ -105,8 +101,11 @@ var itemsProcessed = 0;
 			console.log("start getting data");
 			for (j = 1; j <= 3; j++) {  //J<129
 				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
-					if (j == 1) {
-						max = min = data[0].polarity;
+					if (typeof(min) == "undefined") {
+						min = data[0].polarity;
+					}
+					if (typeof(max) == "undefined") {
+						max = data[0].polarity;
 					}
 					for (i = 0; i < data.length; i++) {
 						if (typeof(data[i]['georss:point']) != "undefined") {
@@ -124,26 +123,21 @@ var itemsProcessed = 0;
 								console.log(data[i].title + "  polarity:",polarity + "  " + data[i]['georss:point'].content);
 							}*/
 
-							if (data[i].contry == "US") {
-								//alert(Constants);
-								StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
-								polaritySumArr[StateID] += polarity;
-								polarityCountArr[StateID]++;
-							}
+							StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
+							polaritySumArr[StateID] += polarity;
+							polarityCountArr[StateID]++;
 						}
 					}
 					itemsProcessed++;
-					    if(itemsProcessed === 3) {
-     						callback();
-    					}
+					if (itemsProcessed === 3) {
+     					callback();
+    				}
 				});
 			}
 			console.log("data recieved");
-
 		}
 
 		function printRanges () {
-
 			calcAvg();			
 			console.log("min=");
 			console.log(min);
@@ -159,8 +153,6 @@ var itemsProcessed = 0;
 			}
 		}
 
-		  getData();
-  			
-  	
+		getData();
 	}]);
 })();
