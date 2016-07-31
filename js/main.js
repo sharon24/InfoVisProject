@@ -58,7 +58,7 @@
     	]
 	});
 
-	app.controller('MainController',['$scope','$window','$http',function($scope,$window,$http) {
+	app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 		var polarity,max,min;
 		const numberOfRanges = 3;
 		var range;
@@ -66,12 +66,15 @@
 		var polarityCountArr = [];
 		var polarityAvgArr = [];
 
+		function sleep(time) {
+			return new Promise((resolve) => setTimeout(resolve,time));
+		}
 
 		function initializeArray() {
 			for (i = 0; i <= 51; i++) {
 				polaritySumArr[i] = 0;
 				polarityCountArr[i] = 0;
-				polarityAvgArr[i] = 0;
+				polarityAvgArr[i] = 1;
 			}
 		}
 
@@ -116,7 +119,7 @@
 							}*/
 
 							if (data[i].contry == "US") {
-								alert(Constants);
+								//alert(Constants);
 								StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
 								polaritySumArr[StateID] += polarity;
 								polarityCountArr[StateID]++;
@@ -135,6 +138,7 @@
 			console.log("  max=");
 			console.log(max);
 			console.log("\n");
+			console.log(""+polaritySumArr[12]+" "+polarityCountArr[12]+" "+polarityAvgArr[12]+"");
 
 			range = Math.abs(min)+Math.abs(max);
 
@@ -143,8 +147,12 @@
 			}
 		}
 
-		$.when(getData(),printRanges()).done(function(a1,  a2) {
+		getData();
+		sleep(5000).then(() => {
+			printRanges();
+		})
+		/*$.when(getData(),printRanges()).done(function(a1,  a2) {
 			console.log("asas");
-		});
+		});*/
 	}]);
 })();
