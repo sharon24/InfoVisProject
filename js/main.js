@@ -59,16 +59,14 @@
 	});
 
 	app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
-		var polarity,max,min;
+		var polarity,max;
+		var min;
 		const numberOfRanges = 3;
 		var range;
 		var polaritySumArr = [];
 		var polarityCountArr = [];
 		var polarityAvgArr = [];
 
-		function sleep(time) {
-			return new Promise((resolve) => setTimeout(resolve,time));
-		}
 
 		function initializeArray() {
 			for (i = 0; i <= 51; i++) {
@@ -100,13 +98,19 @@ function callback () {
 var itemsProcessed = 0;
 
 		function getData() {
+
 			var stateID;
 			initializeArray();
 			console.log("start getting data");
 			for (j = 1; j <= 3; j++) {  //J<129
-				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
-					if (j == 1) {
-						max = min = data[0].polarity;
+
+				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {	
+
+					if (typeof(min) =="undefined") {
+						 min =data[0].polarity;
+					}
+					if (typeof(max) =="undefined") {
+						 max =data[0].polarity;
 					}
 					for (i = 0; i < data.length; i++) {
 						if (typeof(data[i]['georss:point']) != "undefined") {
