@@ -159,12 +159,8 @@ var itemsProcessed = 0;
 			}
 		}
 
-		  var promise = getData();
-  			promise.then(function(data){
-  			printRanges();
-      });
-		/*$.when(getData(),printRanges()).done(function(a1,  a2) {
-			console.log("asas");
-		});*/
+		  getData();
+  			
+  	
 	}]);
 })();
