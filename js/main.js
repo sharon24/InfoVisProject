@@ -1,5 +1,6 @@
 (function() {
 	var app = angular.module('InfoVis', []);
+
 	app.constant ('Constants', {
 		State: [
         { Id: 0, ShortName: 'AL', FullName: 'Alabama' },
@@ -56,17 +57,21 @@
         { Id: 51, ShortName: 'PR', FullName: 'Puerto Rico' }
     	]
 	});
+
 	app.controller('MainController',['$scope','$window','$http',function($scope,$window,$http) {
 		var polarity,max,min;
 		const numberOfRanges = 3;
 		var range;
-		var polarityByState = [[],[]];
-		}
+		var polaritySumArr = [];
+		var polarityCountArr = [];
+		var polarityAvgArr = [];
+
 
 		function initializeArray() {
 			for (i = 0; i <= 51; i++) {
-				polarityByState[i][0] = 0;	//sum of polarities
-				polarityByState[i][1] = 0;	//amount of polarities
+				polaritySumArr[i] = 0;
+				polarityCountArr[i] = 0;
+				polarityAvgArr[i] = 0;
 			}
 		}
 
@@ -76,17 +81,20 @@
 			var polarityCount;
 
 			for (i = 0; i<=51; i++) {
-				polaritySum = polarityByState[i][0];
-				polarityCount = polarityByState[i][1];
+				polaritySum = polaritySumArr[i];
+				polarityCount = polarityCountArr[i];
 				if (polarityCount != 0) {
-					polarityByState[i][2] = polaritySum/polarityCount;
+					polarityAvgArr[i] = polaritySum/polarityCount;
 				}
 			}
+			console.log("calculated avgs");
 		}
 
 		function getData() {
+			var stateID;
 			initializeArray();
-			for (j = 2; j < 3; j++) {  //J<129
+			console.log("start getting data");
+			for (j = 1; j <= 1; j++) {  //J<129
 				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
 					if (j == 1) {
 						max = min = data[0].polarity;
@@ -101,19 +109,23 @@
 							if (polarity > max) {
 								max = polarity;
 							}
-							if (typeof(data[i]['georss:point'][0]) != "undefined") {
+							/*if (typeof(data[i]['georss:point'][0]) != "undefined") {
 								console.log(data[i].title + "  polarity:",polarity + "  " + data[i]['georss:point'][0].content);
 							} else {
 								console.log(data[i].title + "  polarity:",polarity + "  " + data[i]['georss:point'].content);
-							}
+							}*/
 
-							var StateID = Constants.State.filter(function (items) { return items.ShortName === /*insert state code here*/; })[0].Id;
-							polarityByState[StateID][0] += polarity;
-							polarityByState[StateID][1]++;
+							if (data[i].contry == "US") {
+								alert(Constants);
+								StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
+								polaritySumArr[StateID] += polarity;
+								polarityCountArr[StateID]++;
+							}
 						}
 					}
 				});
 			}
+			console.log("data recieved");
 			calcAvg();
 		}
 
@@ -132,7 +144,7 @@
 		}
 
 		$.when(getData(),printRanges()).done(function(a1,  a2) {
-			alert("asas");
+			console.log("asas");
 		});
 	}]);
 })();
