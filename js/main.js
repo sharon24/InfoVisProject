@@ -66,6 +66,10 @@
 		var polarityCountArr = [];
 		var polarityAvgArr = [];
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/gh-pages
 		function initializeArray() {
 			for (i = 0; i <= 51; i++) {
 				polaritySumArr[i] = 0;
@@ -96,16 +100,28 @@
 		var itemsProcessed = 0;
 
 		function getData() {
+
 			var stateID;
 			initializeArray();
 			console.log("start getting data");
 			for (j = 1; j <= 3; j++) {  //J<129
+<<<<<<< HEAD
 				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
 					if (typeof(min) == "undefined") {
 						min = data[0].polarity;
 					}
 					if (typeof(max) == "undefined") {
 						max = data[0].polarity;
+=======
+
+				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {	
+
+					if (typeof(min) =="undefined") {
+						 min =data[0].polarity;
+					}
+					if (typeof(max) =="undefined") {
+						 max =data[0].polarity;
+>>>>>>> origin/gh-pages
 					}
 					for (i = 0; i < data.length; i++) {
 						if (typeof(data[i]['georss:point']) != "undefined") {
