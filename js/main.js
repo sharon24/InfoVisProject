@@ -65,6 +65,7 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 	var polaritySumArr = [];
 	var polarityCountArr = [];
 	var polarityAvgArr = [];
+	var ColorScheme;
 
 	function initializeArray() {
 		for (i = 0; i <= 51; i++) {
@@ -92,6 +93,7 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 		function callback () { 
 			console.log('all done');
 			printRanges();
+			setColorScheme();
 			DataMapInit();
 		}
 		var itemsProcessed = 0;
@@ -155,7 +157,29 @@ function printRanges () {
 	}
 }
 
+function setColorScheme() {
+
+	ColorScheme ={
+	Positive1to20: 'rgba(75, 103, 62, 1)',
+	Positive21to40: '#33ff33',
+	Positive41to60: '#00e600',
+	Positive61to80: '#008000',
+	Positive81to100 :"#003300",
+	Ambivalent:"#ffffff",
+	negative1to20: '#ffcccc',
+	negative21to40: '#ff6666',
+	negative41to60: '#ff0000',
+	negative61to80: '#990000',
+	negative81to100 :"#330000"
+	};
+
+
+}
+
 function DataMapInit () {
+
+
+
 	var keywordMap1 = new Datamap({
 		scope: 'usa',
 		element: document.getElementById("keywordMap1"),
@@ -169,20 +193,7 @@ function DataMapInit () {
 			highlightBorderWidth: 3,
 		},
 //http://api.geonames.org/countrySubdivision?lat=28.6535391673714&lng=-82.4751710549983&username=demo
-fills: {
-	Positive1to20: '#80ff80',
-	Positive21to40: '#33ff33',
-	Positive41to60: '#00e600',
-	Positive61to80: '#008000',
-	Positive81to100 :"#003300",
-	Ambivalent:"#ffffff",
-	negative1to20: '#ffcccc',
-	negative21to40: '#ff6666',
-	negative41to60: '#ff0000',
-	negative61to80: '#990000',
-	negative81to100 :"#330000",
-
-},
+fills: ColorScheme,
 data:{
 	"AZ": {
 		"fillKey": "Positive1to20",
