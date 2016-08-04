@@ -96,6 +96,25 @@ textarea {
    ========================================================================== */
 
 
+.colorPresetItem {
+     display: inline-block;
+     margin-left: 10px;
+      padding: 5px 5px 5px 5px;
+    cursor: pointer;
+}
+
+.colorPresetItem:hover {
+background-color: #ccc;
+}
+
+.colorPresetItem.selected {
+        background-color: #999;
+}
+.colorPresetsSelctionPan {
+    margin-bottom: 50px;
+}
+
+
 
 
 

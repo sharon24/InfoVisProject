@@ -60,12 +60,25 @@
 
 app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 	var polarity,max,min;
-	const numberOfRanges = 3;
+	$scope.numberOfRanges = 3;
+	$scope.numberOfPresetsColor=6;
+	$scope.presetsColors = [{col1:[1,133,113],col2:[166,97,26]},{col1:[200,28,139],col2:[77,172,38]},{col1:[123,50,148],col2:[0,136,55]},
+	{col1:[230,97,1],col2:[94,60,153]},{col1:[202,0,32],col2:[5,113,176]},{col1:[202,0,32],col2:[64,64,64]}];
+	const minOpacity=0.20;
+	const maxOpacity=0.80;
 	var range;
 	var polaritySumArr = [];
 	var polarityCountArr = [];
 	var polarityAvgArr = [];
 	var ColorScheme;
+
+	var baseColor1=[1,133,113];
+	var baseColor2=[166,97,26];
+	var opacityRange;
+
+	$scope.colorPicked= function() {
+		alert("fix");
+	}
 
 	function initializeArray() {
 		for (i = 0; i <= 51; i++) {
@@ -152,13 +165,59 @@ function printRanges () {
 
 	range = Math.abs(min)+Math.abs(max);
 
-	for (i = 0; i < numberOfRanges; i++) {
-		console.log("range ",i+1,":",min+i*range/numberOfRanges,"-",min+(i+1)*range/numberOfRanges,"\n");
+	for (i = 0; i < $scope.numberOfRanges; i++) {
+		console.log("range ",i+1,":",min+i*range/$scope.numberOfRanges,"-",min+(i+1)*range/$scope.numberOfRanges,"\n");
 	}
 }
 
-function setColorScheme() {
 
+function calc2dOpacity (colorIndex,op1,op2) {
+	var newOp=op1+(op2*(1-op1));
+	var r=Math.round(($scope.presetsColors[colorIndex].col1[0]*op1+$scope.presetsColors[colorIndex].col2[0]*op2*(1-op1))/newOp);
+	if (r>255) {
+		r=255;
+	}
+	var b=Math.round(($scope.presetsColors[colorIndex].col1[1]*op1+$scope.presetsColors[colorIndex].col2[1]*op2*(1-op1))/newOp);
+	if (b>255) {
+		b=255;
+	}
+
+	var g=Math.round(($scope.presetsColors[colorIndex].col1[2]*op1+$scope.presetsColors[colorIndex].col2[2]*op2*(1-op1))/newOp);
+	if (g>255) {
+		g=255;
+	}
+	return [r,b,g,newOp];
+
+}
+
+function setColorScheme() {
+	range = (maxOpacity-minOpacity)/($scope.numberOfRanges-1);
+	var opacityRange =[];
+	$scope.colorRanges=[];
+	for (i = 0; i < $scope.numberOfRanges; i++) {
+		opacityRange[i]=minOpacity+i*range;
+	}
+
+	
+	for (var i=0;i<$scope.numberOfPresetsColor;i++){
+		$scope.colorRanges[i]=[];
+	}
+
+	for (var i=0;i<$scope.numberOfPresetsColor;i++){
+		for (var j=0; j<$scope.numberOfRanges; j++) {
+		$scope.colorRanges[i][j]=[];
+		}
+	}
+	for (var i=0;i<$scope.numberOfPresetsColor;i++){
+		for (var j=0; j<$scope.numberOfRanges; j++) {
+			for (var q=0; q<$scope.numberOfRanges; q++) {
+				$scope.colorRanges[i][j][q]=calc2dOpacity(i,opacityRange[j],opacityRange[q]);
+			}
+
+		}
+	}
+
+//alert($scope.colorRanges[0]);
 	ColorScheme ={
 	Positive1to20: 'rgba(75, 103, 62, 1)',
 	Positive21to40: '#33ff33',
