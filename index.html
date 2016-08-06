@@ -73,8 +73,8 @@
 
 <div>
 <P>  Pick a color scheme:</p>
-  <div ng-init="selectedTab = 0" class="colorPresetsSelctionPan" ng-attr-width="{{numberOfPresetsColor*45}}">
-    <div  class="colorPresetItem" ng-click='colorPicked()' ng-repeat="pColor in colorRanges">
+  <div  class="colorPresetsSelctionPan" ng-attr-width="{{numberOfPresetsColor*45}}">
+    <div ng-init='initDefaultColors()' class="colorPresetItem" ng-click='colorPicked($index)' ng-repeat="pColor in colorRanges">
   <svg  ng-attr-width="{{numberOfRanges*15}}" ng-attr-height="{{numberOfRanges*15}}">
 <g ng-repeat="row in pColor" >
         <rect  ng-repeat="rect in row"
@@ -103,7 +103,9 @@
   } );
   </script>
          <p>Date: <input type="text" id="datepicker"></p>
+         <div id="keywordMapParent">
          <div id="keywordMap1" style="position: relative; width: 90%; height: 600px;"></div>
+     </div>
       
 
 

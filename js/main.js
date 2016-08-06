@@ -76,9 +76,36 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 	var baseColor2=[166,97,26];
 	var opacityRange;
 
-	$scope.colorPicked= function() {
-		alert("fix");
+	$scope.colorPicked= function(index) {
+		sColor=$(".selected");
+		sColor.className="colorPresetItem";
+		sColors=all(".colorPresetItem");
+        sColors[index].className="colorPresetItem selected";
+
+   		var cIndex=index;
+		for (var j=0; j<$scope.numberOfRanges; j++) {
+			for (var q=0; q<$scope.numberOfRanges; q++) {
+				var key ='c' +(j*$scope.numberOfRanges+q+1)
+				ColorScheme[key]="rgba(" +$scope.colorRanges[cIndex][j][q][0] + "," +$scope.colorRanges[cIndex][j][q][1]
+				+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," +$scope.colorRanges[cIndex][j][q][3]+')';
+			}
+		}
+		var element = document.getElementById("keywordMap1");
+		element.parentNode.removeChild(element);
+		element=document.getElementById("keywordMapParent");
+		element.innerHTML= "<div id=\"keywordMap1\" style=\"position: relative; width: 90%; height: 600px;\"></div>";
+		//keywordMap1
+		DataMapInit();
 	}
+
+	function $(selector) {
+    	return document.querySelector(selector);
+	}
+
+	function all(selector) {
+    	return document.querySelectorAll(selector);
+	}
+
 
 	function initializeArray() {
 		for (i = 0; i <= 51; i++) {
@@ -217,23 +244,37 @@ function setColorScheme() {
 		}
 	}
 
-//alert($scope.colorRanges[0]);
-	ColorScheme ={
-	Positive1to20: 'rgba(75, 103, 62, 1)',
-	Positive21to40: '#33ff33',
-	Positive41to60: '#00e600',
-	Positive61to80: '#008000',
-	Positive81to100 :"#003300",
-	Ambivalent:"#ffffff",
-	negative1to20: '#ffcccc',
-	negative21to40: '#ff6666',
-	negative41to60: '#ff0000',
-	negative61to80: '#990000',
-	negative81to100 :"#330000"
+ColorScheme ={
+	c1:'',
+	c2:'',
+	c3:'',
+	c4:'',
+	c5 :'',
+	c6:'',
+	c7:'',
+	c8:'',
+	c9:'',
 	};
+var cIndex=0;
+	for (var j=0; j<$scope.numberOfRanges; j++) {
+		for (var q=0; q<$scope.numberOfRanges; q++) {
+			var key ='c' +(j*$scope.numberOfRanges+q+1)
+			ColorScheme[key]="rgba(" +$scope.colorRanges[cIndex][j][q][0] + "," +$scope.colorRanges[cIndex][j][q][1]
+			+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," +$scope.colorRanges[cIndex][j][q][3]+')';
+		}
+	}
+
+	
+
 
 
 }
+
+$scope.initDefaultColors =function()  {
+	sColor=$(".colorPresetItem");
+	sColor.className="colorPresetItem selected";
+}
+
 
 function DataMapInit () {
 
@@ -247,265 +288,264 @@ function DataMapInit () {
 
 			highlightFillColor: '#FC8D59',
 			popupTemplate: function(geography, data) {
-				return '<div class="hoverinfo" style="font-size:40px;">' +geography.properties.name  +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity:' +data.average
+				return '<div class="hoverinfo" style="font-size:40px;">' +geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity:' +data.average
 			},
 			highlightBorderWidth: 3,
 		},
-//http://api.geonames.org/countrySubdivision?lat=28.6535391673714&lng=-82.4751710549983&username=demo
 fills: ColorScheme,
 data:{
 	"AZ": {
-		"fillKey": "Positive1to20",
+		"fillKey": "c1",
 		"electoralVotes": 11,
-		"average":polarityAvgArr[2]
+			"average":polarityAvgArr[2]
 	},
 	"CO": {
-		"fillKey": "Positive21to40",
+		"fillKey": "c2",
 		"electoralVotes": 9,
 		"average":polarityAvgArr[5]
 	},
 	"DE": {
-		"fillKey": "negative1to20",
+		"fillKey": "c7",
 		"electoralVotes": 3,
 		"average":polarityAvgArr[7]
 	},
 	"FL": {
-		"fillKey": "Ambivalent",
+		"fillKey": "c6",
 		"electoralVotes": 29,
 		"average":polarityAvgArr[8]
 	},
 	"GA": {
-		"fillKey": "Ambivalent",
+		"fillKey": "c6",
 		"electoralVotes": 16,
 		"average":polarityAvgArr[9]
 	},
 	"HI": {
-		"fillKey": "negative81to100",
+		"fillKey": "c9",
 		"electoralVotes": 4,
 		"average":polarityAvgArr[10]
 	},
 	"ID": {
-		"fillKey": "negative81to100",
+		"fillKey": "c9",
 		"electoralVotes": 4,
 		"average":polarityAvgArr[11]
 	},
 	"IL": {
-		"fillKey": "Positive21to40",
+		"fillKey": "c2",
 		"electoralVotes": 20,
 		"average":polarityAvgArr[12]
 	},
 	"IN": {
-		"fillKey": "Positive81to100",
+		"fillKey": "c5",
 		"electoralVotes": 11,
 		"average":polarityAvgArr[13]
 	},
 	"IA": {
-		"fillKey": "Positive81to100",
+		"fillKey": "c5",
 		"electoralVotes": 6,
 		"average":polarityAvgArr[14]
 	},
 	"KS": {
-		"fillKey": "Positive21to40",
+		"fillKey": "c2",
 		"electoralVotes": 6,
 		"average":polarityAvgArr[15]
 	},
 	"KY": {
-		"fillKey": "Ambivalent",
+		"fillKey": "c6",
 		"electoralVotes": 8,
 		"average":polarityAvgArr[16]
 	},
 	"LA": {
-		"fillKey": "negative81to100",
+		"fillKey": "c9",
 		"electoralVotes": 8,
 		"average":polarityAvgArr[17]
 	},
 	"MD": {
-		"fillKey": "negative81to100",
+		"fillKey": "c9",
 		"electoralVotes": 10,
 		"average":polarityAvgArr[19]
 	},
 	"ME": {
-		"fillKey": "negative81to100",
+		"fillKey": "c9",
 		"electoralVotes": 4,
 		"average":polarityAvgArr[18]
 	},
 	"MA": {
-		"fillKey": "negative41to60",
+		"fillKey": "c9",
 		"electoralVotes": 11,
 		"average":polarityAvgArr[20]
 	},
 	"MN": {
-		"fillKey": "negative41to60",
+		"fillKey": "c9",
 		"electoralVotes": 10,
 		"average":polarityAvgArr[22]
 	},
 	"MI": {
-		"fillKey": "negative41to60",
+		"fillKey": "c9",
 		"electoralVotes": 16,
 		"average":polarityAvgArr[21]
 	},
 	"MS": {
-		"fillKey": "negative41to60",
+		"fillKey": "c9",
 		"electoralVotes": 6,
 		"average":polarityAvgArr[23]
 	},
 	"MO": {
-		"fillKey": "negative41to60",
+		"fillKey": "c9",
 		"electoralVotes": 10,
 		"average":polarityAvgArr[24]
 	},
 	"MT": {
-		"fillKey": "Positive61to80",
+		"fillKey": "c4",
 		"electoralVotes": 3,
 		"average":polarityAvgArr[25]
 	},
 	"NC": {
-		"fillKey": "Positive61to80",
+		"fillKey": "c4",
 		"electoralVotes": 15,
 		"average":polarityAvgArr[32]
 	},
 	"NE": {
-		"fillKey": "Positive61to80",
+		"fillKey": "c4",
 		"electoralVotes": 5,
 		"average":polarityAvgArr[26]
 	},
 	"NV": {
-		"fillKey": "negative21to40",
+		"fillKey": "c8",
 		"electoralVotes": 6,
 		"average":polarityAvgArr[27]
 	},
 	"NH": {
-		"fillKey": "negative21to40",
+		"fillKey": "c8",
 		"electoralVotes": 4,
 		"average":polarityAvgArr[28]
 	},
 	"NJ": {
-		"fillKey": "negative21to40",
+		"fillKey": "c8",
 		"electoralVotes": 14,
 		"average":polarityAvgArr[29]
 	},
 	"NY": {
-		"fillKey": "negative21to40",
+		"fillKey": "c8",
 		"electoralVotes": 29,
 		"average":polarityAvgArr[31]
 	},
 	"ND": {
-		"fillKey": "Ambivalent",
+		"fillKey": "c6",
 		"electoralVotes": 3,
 		"average":polarityAvgArr[33]
 	},
 	"NM": {
-		"fillKey": "Ambivalent",
+		"fillKey": "c6",
 		"electoralVotes": 5,
 		"average":polarityAvgArr[30]
 	},
 	"OH": {
-		"fillKey": "Ambivalent",
+		"fillKey": "c6",
 		"electoralVotes": 18,
 		"average":polarityAvgArr[34]
 	},
 	"OK": {
-		"fillKey": "Ambivalent",
+		"fillKey": "c6",
 		"electoralVotes": 7,
 		"average":polarityAvgArr[35]
 	},
 	"OR": {
-		"fillKey": "negative1to20",
+		"fillKey": "c7",
 		"electoralVotes": 7,
 		"average":polarityAvgArr[36]
 	},
 	"PA": {
-		"fillKey": "negative1to20",
+		"fillKey": "c7",
 		"electoralVotes": 20,
 		"average":polarityAvgArr[37]
 	},
 	"RI": {
-		"fillKey": "negative1to20",
+		"fillKey": "c7",
 		"electoralVotes": 4,
 		"average":polarityAvgArr[38]
 	},
 	"SC": {
-		"fillKey": "negative1to20",
+		"fillKey": "c7",
 		"electoralVotes": 9,
 		"average":polarityAvgArr[39]
 	},
 	"SD": {
-		"fillKey": "Positive41to60",
+		"fillKey": "c3",
 		"electoralVotes": 3,
 		"average":polarityAvgArr[40]
 	},
 	"TN": {
-		"fillKey": "Positive41to60",
+		"fillKey": "c3",
 		"electoralVotes": 11,
 		"average":polarityAvgArr[41]
 	},
 	"TX": {
-		"fillKey": "Positive41to60",
+		"fillKey": "c3",
 		"electoralVotes": 38,
 		"average":polarityAvgArr[42]
 	},
 	"UT": {
-		"fillKey": "Positive41to60",
+		"fillKey": "c3",
 		"electoralVotes": 6,
 		"average":polarityAvgArr[43]
 	},
 	"WI": {
-		"fillKey": "Positive1to20",
+		"fillKey": "c1",
 		"electoralVotes": 10,
 		"average":polarityAvgArr[48]
 	},
 	"VA": {
-		"fillKey": "Positive1to20",
+		"fillKey": "c1",
 		"electoralVotes": 13,
 		"average":polarityAvgArr[45]
 	},
 	"VT": {
-		"fillKey": "Positive1to20",
+		"fillKey": "c1",
 		"electoralVotes": 3,
 		"average":polarityAvgArr[44]
 	},
 	"WA": {
-		"fillKey": "Positive1to20",
+		"fillKey": "c1",
 		"electoralVotes": 12,
 		"average":polarityAvgArr[46]
 	},
 	"WV": {
-		"fillKey": "Positive1to20",
+		"fillKey": "c1",
 		"electoralVotes": 5,
 		"average":polarityAvgArr[47]
 	},
 	"WY": {
-		"fillKey": "Positive1to20",
+		"fillKey": "c1",
 		"electoralVotes": 3,
 		"average":polarityAvgArr[49]
 	},
 	"CA": {
-		"fillKey": "Positive1to20",
+		"fillKey": "c1",
 		"electoralVotes": 55,
 		"average":polarityAvgArr[4]
 	},
 	"CT": {
-		"fillKey": "Positive61to80",
+		"fillKey": "c4",
 		"electoralVotes": 7,
 		"average":polarityAvgArr[6]
 	},
 	"AK": {
-		"fillKey": "Positive61to80",
+		"fillKey": "c4",
 		"electoralVotes": 3,
 		"average":polarityAvgArr[1]
 	},
 	"AR": {
-		"fillKey": "Positive61to80",
+		"fillKey": "c4",
 		"electoralVotes": 6,
 		"average":polarityAvgArr[3]
 	},
 	"AL": {
-		"fillKey": "Positive61to80",
+		"fillKey": "c4",
 		"electoralVotes": 9,
 		"average":polarityAvgArr[0]
 	},
 	"DC": {
-		"fillKey": "Positive61to80",
+		"fillKey": "c4",
 		"electoralVotes": 3,
 		"average":polarityAvgArr[50]
 	}
