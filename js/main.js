@@ -57,7 +57,7 @@
 		{ Id: 51, ShortName: 'PR', FullName: 'Puerto Rico' }
 		]
 	});
-
+angular.module('selectedNumberOfClasses', [])
 app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 	var polarity,max,min;
 	$scope.numberOfRanges = 3;
@@ -77,6 +77,11 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 	var baseColor2=[166,97,26];
 	var opacityRange;
 
+$scope.updateNumberOfClasses = function(selected) {
+	$scope.numberOfRanges =  Math.sqrt(selected);
+	callback();
+	$scope.colorPicked(0);
+}
 	$scope.colorPicked= function(index) {
 		sColor=$(".selected");
 		sColor.className="colorPresetItem";

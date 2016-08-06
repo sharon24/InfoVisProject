@@ -94,7 +94,9 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
+#number p {
+    display: inline-block;
+}
 
 .colorPresetItem {
      display: inline-block;

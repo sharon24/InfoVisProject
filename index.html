@@ -68,9 +68,14 @@
         <!-- Add your site or application content here -->
 
 
-
-
-
+<div id="number">
+<p>Number of data classes:</p>
+<select ng-init="selectedNumberOfClasses =9"  id="num-classes" ng-change='updateNumberOfClasses(selectedNumberOfClasses)' ng-model="selectedNumberOfClasses">
+                        <option name="4">4</option>
+                        <option name="9">9</option>
+                        <option name="16">16</option>
+</select>
+</div>
 <div>
 <P>  Pick a color scheme:</p>
   <div  class="colorPresetsSelctionPan" ng-attr-width="{{numberOfPresetsColor*45}}">
