@@ -98,7 +98,7 @@ $scope.updateNumberOfClasses = function(selected) {
 		}
 		var element = document.getElementById("keywordMap1");
 		element.parentNode.removeChild(element);
-		element=document.getElementById("keywordMapParent");
+		element=document.getElementById("map-container");
 		element.innerHTML= "<div id=\"keywordMap1\" style=\"position: relative; width: 90%; height: 600px;\"></div>";
 		//keywordMap1
 		DataMapInit();

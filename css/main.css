@@ -94,6 +94,37 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+   #wrapper {
+    height: 660px;
+    position: relative;
+}
+
+.section {
+    border-top: 1px solid #999;
+    padding: 5px 0;
+}
+
+#map-container {
+    margin-left: 264px;
+    position: relative;
+    width: 756px;
+    height: 650px;
+    border: 1px solid #999;
+    overflow: hidden;
+}
+
+#left {
+    width: 400px;
+    height: 650px;
+    float: left;
+    border-left: 1px solid #999;
+    border-bottom: 1px solid #999;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+    z-index: 999;
+}
+
 #number p {
     display: inline-block;
 }

@@ -1,52 +1,52 @@
 <!doctype html>
 <html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <!-- Place favicon.ico in the root directory -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
 
-        <script type="text/javascript" src="js/angular.min.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-      
-
-        
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
 
 
 
 
-        <!-- ************************************************************************************************* -->
-        <!-- timelines dependencies start -->
-        <link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
-        <link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
-        <script src="js/jquery-2.2.3.js"></script>
 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-          <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+
+    <!-- ************************************************************************************************* -->
+    <!-- timelines dependencies start -->
+    <link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
+    <script src="js/jquery-2.2.3.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 
          <!-- TIMELINES NOT NEEDED
         <script src="js/timelines/modernizr.js"></script> 
          <script src="js/timelines/jquery.mobile.custom.min.js"></script>
 
          TIMELINES NOT NEEDED-->
-        <script src="js/timelines/timelines.js"></script> <!-- Resource jQuery -->
+         <script src="js/timelines/timelines.js"></script> <!-- Resource jQuery -->
          <!-- timelines dependencies end -->
-        <!-- data map dependencies start -->
-        <script src="http://d3js.org/d3.v3.min.js"></script>
-        <script src="http://d3js.org/topojson.v1.min.js"></script>
-        <script src="http://datamaps.github.io/scripts/datamaps.usa.min.js?v=1"></script>
-        <!-- data map dependencies end -->
-        <!-- ************************************************************************************************* -->
+         <!-- data map dependencies start -->
+         <script src="http://d3js.org/d3.v3.min.js"></script>
+         <script src="http://d3js.org/topojson.v1.min.js"></script>
+         <script src="http://datamaps.github.io/scripts/datamaps.usa.min.js?v=1"></script>
+         <!-- data map dependencies end -->
+         <!-- ************************************************************************************************* -->
 
 
 
@@ -58,28 +58,30 @@
 
 
 
-    </head>
-    <body ng-app="InfoVis">
+     </head>
+     <body ng-app="InfoVis">
       <div ng-controller="MainController">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+            <![endif]-->
 
-        <!-- Add your site or application content here -->
+            <!-- Add your site or application content here -->
 
+            <div id="wrapper">
+                <div id="left">
 
-<div id="number">
-<p>Number of data classes:</p>
-<select ng-init="selectedNumberOfClasses =9"  id="num-classes" ng-change='updateNumberOfClasses(selectedNumberOfClasses)' ng-model="selectedNumberOfClasses">
-                        <option name="4">4</option>
-                        <option name="9">9</option>
-                        <option name="16">16</option>
-</select>
-</div>
-<div>
-<P>  Pick a color scheme:</p>
-  <div  class="colorPresetsSelctionPan" ng-attr-width="{{numberOfPresetsColor*45}}">
-    <div ng-init='initDefaultColors()' class="colorPresetItem" ng-click='colorPicked($index)' ng-repeat="pColor in colorRanges">
+                    <div id="number" class="section">
+                        <p>Number of data classes:</p>
+                        <select ng-init="selectedNumberOfClasses =9"  id="num-classes" ng-change='updateNumberOfClasses(selectedNumberOfClasses)' ng-model="selectedNumberOfClasses">
+                            <option name="4">4</option>
+                            <option name="9">9</option>
+                            <option name="16">16</option>
+                        </select>
+                    </div>
+                    <div class="section">
+                        <P>  Pick a color scheme:</p>
+                          <div  class="colorPresetsSelctionPan" ng-attr-width="{{numberOfPresetsColor*45}}">
+                                <div ng-init='initDefaultColors()' class="colorPresetItem" ng-click='colorPicked($index)' ng-repeat="pColor in colorRanges">
   <svg  ng-attr-width="{{numberOfRanges*15}}" ng-attr-height="{{numberOfRanges*15}}">
 <g ng-repeat="row in pColor" >
         <rect  ng-repeat="rect in row"
@@ -94,152 +96,29 @@
         </g>
   </svg>
   </div>
-  </div>
+                                                <!-- ************************************************************************************************* -->
+                    <script>
+                    $( function() {
+                        $( "#datepicker" ).datepicker();
+                    } );
+                    </script>
+                    <div class="section">
+                            <p>Date: <input type="text" id="datepicker"></p>
 </div>
-  
+
+
+                        </div>
+                    </div>
+                </div>
+            
 
 
 
 
-        <!-- ************************************************************************************************* -->
-           <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-  </script>
-         <p>Date: <input type="text" id="datepicker"></p>
-         <div id="keywordMapParent">
+         <div id="map-container">
          <div id="keywordMap1" style="position: relative; width: 90%; height: 600px;"></div>
      </div>
-      
-
-
-
-
-
- <section class="cd-horizontal-timeline">
-    <div class="timeline">
-        <div class="events-wrapper">
-            <div class="events">
-                <ol>
-                    <li><a href="#0" data-date="16/01/2014" class="selected">16 Jan</a></li>
-                    <li><a href="#0" data-date="28/02/2014">28 Feb</a></li>
-                    <li><a href="#0" data-date="20/04/2014">20 Mar</a></li>
-                    <li><a href="#0" data-date="20/05/2014">20 May</a></li>
-                    <li><a href="#0" data-date="09/07/2014">09 Jul</a></li>
-                    <li><a href="#0" data-date="30/08/2014">30 Aug</a></li>
-                    <li><a href="#0" data-date="15/09/2014">15 Sep</a></li>
-                    <li><a href="#0" data-date="01/11/2014">01 Nov</a></li>
-                    <li><a href="#0" data-date="10/12/2014">10 Dec</a></li>
-                    <li><a href="#0" data-date="19/01/2015">29 Jan</a></li>
-                    <li><a href="#0" data-date="03/03/2015">3 Mar</a></li>
-                </ol>
-
-                <span class="filling-line" aria-hidden="true"></span>
-            </div> <!-- .events -->
-        </div> <!-- .events-wrapper -->
-            
-        <ul class="cd-timeline-navigation">
-            <li><a href="#0" class="prev inactive">Prev</a></li>
-            <li><a href="#0" class="next">Next</a></li>
-        </ul> <!-- .cd-timeline-navigation -->
-    </div> <!-- .timeline -->
-
-    <div class="events-content">
-        <ol>
-            <li class="selected" data-date="16/01/2014">
-                <h2>Horizontal Timeline</h2>
-                <em>January 16th, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="28/02/2014">
-                <h2>Event title here</h2>
-                <em>February 28th, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="20/04/2014">
-                <h2>Event title here</h2>
-                <em>March 20th, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="20/05/2014">
-                <h2>Event title here</h2>
-                <em>May 20th, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="09/07/2014">
-                <h2>Event title here</h2>
-                <em>July 9th, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="30/08/2014">
-                <h2>Event title here</h2>
-                <em>August 30th, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="15/09/2014">
-                <h2>Event title here</h2>
-                <em>September 15th, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="01/11/2014">
-                <h2>Event title here</h2>
-                <em>November 1st, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="10/12/2014">
-                <h2>Event title here</h2>
-                <em>December 10th, 2014</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="19/01/2015">
-                <h2>Event title here</h2>
-                <em>January 19th, 2015</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-
-            <li data-date="03/03/2015">
-                <h2>Event title here</h2>
-                <em>March 3rd, 2015</em>
-                <p> 
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                </p>
-            </li>
-        </ol>
-    </div> <!-- .events-content -->
-</section>
-
-
-        <!-- ************************************************************************************************* -->
+     </div>
 
 
 
@@ -249,6 +128,129 @@
 
 
 
+                    <section class="cd-horizontal-timeline">
+                        <div class="timeline">
+                            <div class="events-wrapper">
+                                <div class="events">
+                                    <ol>
+                                        <li><a href="#0" data-date="16/01/2014" class="selected">16 Jan</a></li>
+                                        <li><a href="#0" data-date="28/02/2014">28 Feb</a></li>
+                                        <li><a href="#0" data-date="20/04/2014">20 Mar</a></li>
+                                        <li><a href="#0" data-date="20/05/2014">20 May</a></li>
+                                        <li><a href="#0" data-date="09/07/2014">09 Jul</a></li>
+                                        <li><a href="#0" data-date="30/08/2014">30 Aug</a></li>
+                                        <li><a href="#0" data-date="15/09/2014">15 Sep</a></li>
+                                        <li><a href="#0" data-date="01/11/2014">01 Nov</a></li>
+                                        <li><a href="#0" data-date="10/12/2014">10 Dec</a></li>
+                                        <li><a href="#0" data-date="19/01/2015">29 Jan</a></li>
+                                        <li><a href="#0" data-date="03/03/2015">3 Mar</a></li>
+                                    </ol>
+
+                                    <span class="filling-line" aria-hidden="true"></span>
+                                </div> <!-- .events -->
+                            </div> <!-- .events-wrapper -->
+
+                            <ul class="cd-timeline-navigation">
+                                <li><a href="#0" class="prev inactive">Prev</a></li>
+                                <li><a href="#0" class="next">Next</a></li>
+                            </ul> <!-- .cd-timeline-navigation -->
+                        </div> <!-- .timeline -->
+
+                        <div class="events-content">
+                            <ol>
+                                <li class="selected" data-date="16/01/2014">
+                                    <h2>Horizontal Timeline</h2>
+                                    <em>January 16th, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="28/02/2014">
+                                    <h2>Event title here</h2>
+                                    <em>February 28th, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="20/04/2014">
+                                    <h2>Event title here</h2>
+                                    <em>March 20th, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="20/05/2014">
+                                    <h2>Event title here</h2>
+                                    <em>May 20th, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="09/07/2014">
+                                    <h2>Event title here</h2>
+                                    <em>July 9th, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="30/08/2014">
+                                    <h2>Event title here</h2>
+                                    <em>August 30th, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="15/09/2014">
+                                    <h2>Event title here</h2>
+                                    <em>September 15th, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="01/11/2014">
+                                    <h2>Event title here</h2>
+                                    <em>November 1st, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="10/12/2014">
+                                    <h2>Event title here</h2>
+                                    <em>December 10th, 2014</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="19/01/2015">
+                                    <h2>Event title here</h2>
+                                    <em>January 19th, 2015</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+
+                                <li data-date="03/03/2015">
+                                    <h2>Event title here</h2>
+                                    <em>March 3rd, 2015</em>
+                                    <p> 
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+                                    </p>
+                                </li>
+                            </ol>
+                        </div> <!-- .events-content -->
+                    </section>
+
+
+                    <!-- ************************************************************************************************* -->
 
 
 
@@ -259,23 +261,32 @@
 
 
 
-       
-       
-        <script src="js/plugins.js"></script>
-       
-
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='https://www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
-        </script>
 
 
 
-</div>
-    </body>
-</html>
+
+
+
+
+
+
+
+
+                    <script src="js/plugins.js"></script>
+
+
+                    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+                    <script>
+                    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+                        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+                    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+                    e.src='https://www.google-analytics.com/analytics.js';
+                    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+                    ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+                    </script>
+
+
+
+                </div>
+            </body>
+            </html>
