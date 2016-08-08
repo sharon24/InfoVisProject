@@ -107,10 +107,16 @@ textarea {
 #map-container {
     margin-left: 264px;
     position: relative;
-    width: 756px;
     height: 650px;
     border: 1px solid #999;
     overflow: hidden;
+    margin-top: 10px;
+}
+#keywordMap1 {
+    margin:10px;
+    position: relative;
+     width: 90%; 
+     height: 600px;
 }
 
 #left {
@@ -125,7 +131,25 @@ textarea {
     z-index: 999;
 }
 
-#number p {
+#right {
+    width: 200px;
+    height: 650px;
+    float: right;
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+    z-index: 999;
+    display: inline-block;
+}
+#cont {
+    float: right;
+    position: relative;
+    width: 200px;
+    height: 650px;
+}
+#number p #legend p{
     display: inline-block;
 }
 
