@@ -171,7 +171,15 @@ background-color: #ccc;
     margin-bottom: 50px;
 }
 .legened-item {
-    padding-top:5px; 
+    margin-left: 10px;
+    padding: 2.5px 2.5px 2.5px 2.5px;
+    cursor: pointer;
+    display: inline-block;
+
+}
+
+.legened-item.selected {
+        background-color: #999;
 }
 
 

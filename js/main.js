@@ -61,6 +61,7 @@ angular.module('selectedNumberOfClasses', [])
 app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 	var polarity,max,min;
 	$scope.colorPickedByUser;
+	$scope.legendPickedByUser=-1;
 	$scope.numberOfRanges = 3;
 	$scope.numberOfPresetsColor=6;
 	$scope.presetsColors = [{col1:[1,133,113],col2:[166,97,26]},{col1:[200,28,139],col2:[77,172,38]},{col1:[123,50,148],col2:[0,136,55]},
@@ -77,18 +78,43 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 	var baseColor1=[1,133,113];
 	var baseColor2=[166,97,26];
 	var opacityRange;
+	$scope.legendPicked= function(index) { 
+		if (index ==$scope.legendPickedByUser) {
+			$scope.legendPickedByUser=-1;
+			sColor=$(".legened-item.selected");
+			if (sColor != null) {
+			sColor.className="legened-item";
+			}
+					var element = document.getElementById("keywordMap1");
+		element.parentNode.removeChild(element);
+		element=document.getElementById("map-container");
+		element.innerHTML= "<div id=\"keywordMap1\" ></div>";
+		DataMapInit();
+		}  else {
+		$scope.legendPickedByUser=index;
 
+		var element = document.getElementById("keywordMap1");
+		element.parentNode.removeChild(element);
+		element=document.getElementById("map-container");
+		element.innerHTML= "<div id=\"keywordMap1\" ></div>";
+		DataMapInit();
+
+		sColor=$(".legened-item.selected");
+		if (sColor != null) {
+		sColor.className="legened-item";
+	}
+		sColors=all(".legened-item");
+		sColors[index].className="legened-item selected";
+}
+
+	}
 $scope.updateNumberOfClasses = function(selected) {
 	$scope.numberOfRanges =  Math.sqrt(selected);
 	callback();
-	$scope.colorPicked(0);
+	
 }
 	$scope.colorPicked= function(index) {
 		$scope.colorPickedByUser=index;
-		sColor=$(".selected");
-		sColor.className="colorPresetItem";
-		sColors=all(".colorPresetItem");
-        sColors[index].className="colorPresetItem selected";
 
    		var cIndex=index;
 		for (var j=0; j<$scope.numberOfRanges; j++) {
@@ -102,8 +128,17 @@ $scope.updateNumberOfClasses = function(selected) {
 		element.parentNode.removeChild(element);
 		element=document.getElementById("map-container");
 		element.innerHTML= "<div id=\"keywordMap1\" ></div>";
-		//keywordMap1
 		DataMapInit();
+
+	sColor=$(".colorPresetItem.selected");
+		if (sColor != null) {
+		sColor.className="colorPresetItem";
+	}
+
+		sColors=all(".colorPresetItem");
+
+        sColors[index].className="colorPresetItem selected";
+
 	}
 
 	function $(selector) {
@@ -295,11 +330,18 @@ $scope.initDefaultColors =function()  {
 	sColor.className="colorPresetItem selected";
 }
 
+
+
 function setColorByIndex(index) {
 	for (i=0;i<$scope.numberOfRanges*$scope.numberOfRanges;i++) {
 
 		if (polarityAvgArr[index] <=ranges[i][1]) {
+			if (i+1 === $scope.legendPickedByUser+1 ||$scope.legendPickedByUser ===-1) {
+			
 			return ("c" +(i+1));
+			} else {
+				return ("black");
+			}
 		}
 	}
 }

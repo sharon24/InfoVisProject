@@ -122,7 +122,8 @@
 
 <div ng-repeat="row in colorRanges[colorPickedByUser]">
 
-<div class="legened-item" ng-repeat="rect in row">
+<div ng-repeat="rect in row">
+    <div  class="legened-item" ng-click='legendPicked($index+$parent.$index*row.length)'>
                             <svg   ng-attr-width="{{15}}" ng-attr-height="{{15}}">
                                     <rect  
                                     ng-attr-width="{{15}}" 
@@ -132,6 +133,8 @@
 
                                 </rect>
                         </svg>
+                    </div>
+
                         sss {{$index+$parent.$index*row.length}}
                     </div>
                     </div>
