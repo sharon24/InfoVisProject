@@ -60,7 +60,7 @@
 angular.module('selectedNumberOfClasses', [])
 app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 	var polarity,max,min;
-	$scope.colorPickedByUser;
+	$scope.colorPickedByUser=0;
 	$scope.legendPickedByUser=-1;
 	$scope.numberOfRanges = 3;
 	$scope.numberOfPresetsColor=9;
@@ -173,6 +173,8 @@ function initializeArray() {
 
 		for (i = 0; i<=51; i++) {
 
+
+
 			polaritySum = polaritySumArr[i];
 			polarityCount = polarityCountArr[i];
 			if (polarityCount != 0) {
@@ -190,6 +192,7 @@ function initializeArray() {
 				}
 
 			}
+			console.log( "polarityAvgArr["+i+"]:" +polarityAvgArr[i] );
 		}
 		console.log("calculated avgs");
 	}
@@ -198,7 +201,11 @@ function initializeArray() {
 		console.log('all done');
 		printRanges();
 		setColorScheme();
-		$scope.colorPicked(0);
+		  angular.element(document).ready(function () {
+    $scope.colorPicked(0); 
+});
+		
+		//});
 	}
 	var itemsProcessed = 0;
 
@@ -206,8 +213,9 @@ function initializeArray() {
 		var stateID;
 		initializeArray();
 		console.log("start getting data");
-		for (j = 1; j <= 3; j++) {  //J<129
+		for (j = 1; j <= 52; j++) {  //J<129
 			$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {	
+
 
 				for (i = 0; i < data.length; i++) {
 					if (typeof(data[i]['georss:point']) != "undefined") {
@@ -226,7 +234,7 @@ function initializeArray() {
 					}
 				}
 				itemsProcessed++;
-				if (itemsProcessed === 3) {
+				if (itemsProcessed ===52) {
 					callback();
 				}
 			});
@@ -235,7 +243,7 @@ function initializeArray() {
 	}
 
 	function printRanges () {
-		calcAvg();			
+		calcAvg();		
 		console.log("min=");
 		console.log(min);
 		console.log("  max=");
@@ -243,7 +251,13 @@ function initializeArray() {
 		console.log("\n");
 		console.log(""+polaritySumArr[12]+" "+polarityCountArr[12]+" "+polarityAvgArr[12]+"");
 
-		range = Math.abs(min)+Math.abs(max);
+if (max >=0 && min>=0) {
+		range = max-min;
+	}   else if (min<0 && max>=0)  {
+		range = max-math.abs(min);
+	} else if (min<0 && max<0) {
+		range = math.abs(max)-math.abs(min);
+	}
 
 
 		var numOfRanges=$scope.numberOfRanges*$scope.numberOfRanges;
