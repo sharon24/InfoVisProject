@@ -63,9 +63,11 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 	$scope.colorPickedByUser;
 	$scope.legendPickedByUser=-1;
 	$scope.numberOfRanges = 3;
-	$scope.numberOfPresetsColor=6;
-	$scope.presetsColors = [{cBlindSupported:false,col1:[1,133,113],col2:[166,97,26]},{cBlindSupported:false,col1:[200,28,139],col2:[77,172,38]},{cBlindSupported:false,col1:[123,50,148],col2:[0,136,55]},
-	{cBlindSupported:false,col1:[230,97,1],col2:[94,60,153]},{cBlindSupported:false,col1:[202,0,32],col2:[5,113,176]},{cBlindSupported:true,col1:[202,0,32],col2:[64,64,64]}];
+	$scope.numberOfPresetsColor=9;
+	$scope.presetsColors = [{cBlindSupported:true,col1:[1,133,113],col2:[166,97,26]},{cBlindSupported:true,col1:[200,28,139],col2:[77,172,38]},{cBlindSupported:true,col1:[123,50,148],col2:[0,136,55]},
+	{cBlindSupported:true,col1:[230,97,1],col2:[94,60,153]},{cBlindSupported:true,col1:[202,0,32],col2:[5,113,176]},{cBlindSupported:false,col1:[202,0,32],col2:[64,64,64]}
+,{cBlindSupported:true,col1:[215,25,28],col2:[44,123,182]} ,{cBlindSupported:false,col1:[215,25,28],col2:[26,150,65]}
+,{cBlindSupported:false,col1:[215,25,28],col2:[43,131,186]}];
 	const minOpacity=0.20;
 	const maxOpacity=0.80;
 	var range;
@@ -135,10 +137,11 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 
 		sColor=$(".colorPresetItem.selected");
 		if (sColor != null) {
+
 			if (sColor.className.includes("ng-hide")) {
 				sColor.className="colorPresetItem ng-hide";
 			} else {
-				Color.className="colorPresetItem";
+				sColor.className="colorPresetItem";
 			}
 		}
 
