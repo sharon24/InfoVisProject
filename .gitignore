@@ -1,2 +1,5 @@
 # Include your project-specific ignores in this file
-data/
+data/NewsItemsData.json
+data/newsItems_Events.json
+data/newsItems_Sources.json
+data/newsItems_Episodes.json
