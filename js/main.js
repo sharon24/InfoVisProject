@@ -60,6 +60,7 @@
 angular.module('selectedNumberOfClasses', [])
 app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 	var polarity,max,min;
+	$scope.colorPickedByUser;
 	$scope.numberOfRanges = 3;
 	$scope.numberOfPresetsColor=6;
 	$scope.presetsColors = [{col1:[1,133,113],col2:[166,97,26]},{col1:[200,28,139],col2:[77,172,38]},{col1:[123,50,148],col2:[0,136,55]},
@@ -83,6 +84,7 @@ $scope.updateNumberOfClasses = function(selected) {
 	$scope.colorPicked(0);
 }
 	$scope.colorPicked= function(index) {
+		$scope.colorPickedByUser=index;
 		sColor=$(".selected");
 		sColor.className="colorPresetItem";
 		sColors=all(".colorPresetItem");
@@ -153,7 +155,7 @@ $scope.updateNumberOfClasses = function(selected) {
 			console.log('all done');
 			printRanges();
 			setColorScheme();
-			DataMapInit();
+			$scope.colorPicked(0);
 		}
 		var itemsProcessed = 0;
 

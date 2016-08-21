@@ -119,6 +119,22 @@
                 </div>
                    <div class="section" id="legend">
                         <p>Map Legend:</p>
+
+<div ng-repeat="row in colorRanges[colorPickedByUser]">
+
+<div class="legened-item" ng-repeat="rect in row">
+                            <svg   ng-attr-width="{{15}}" ng-attr-height="{{15}}">
+                                    <rect  
+                                    ng-attr-width="{{15}}" 
+                                    ng-attr-height="{{15}}"
+                                    ng-attr-fill="{{'rgba('+ rect[0] +',' + rect[1] +','+ rect[2] +','+ rect[3]+')' }}"
+                                    >
+
+                                </rect>
+                        </svg>
+                        sss {{$index+$parent.$index*row.length}}
+                    </div>
+                    </div>
                     </div>
             </div>
             </div>
@@ -134,15 +150,6 @@
                  <div id="keywordMap1" ></div>
              </div>
      </div>
-
-
-
-
-
-
-
-
-
 
 
          <section class="cd-horizontal-timeline">

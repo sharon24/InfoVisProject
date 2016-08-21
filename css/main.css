@@ -107,7 +107,7 @@ textarea {
 #map-container {
     margin-left: 264px;
     position: relative;
-    height: 650px;
+    height: 740px;
     border: 1px solid #999;
     overflow: hidden;
     margin-top: 10px;
@@ -121,7 +121,7 @@ textarea {
 
 #left {
     width: 300px;
-    height: 650px;
+    height: 740px;
     float: left;
     border-left: 1px solid #999;
     border-bottom: 1px solid #999;
@@ -133,7 +133,7 @@ textarea {
 
 #right {
     width: 200px;
-    height: 650px;
+    height: 740px;
     float: right;
     border-right: 1px solid #999;
     border-bottom: 1px solid #999;
@@ -147,7 +147,7 @@ textarea {
     float: right;
     position: relative;
     width: 200px;
-    height: 650px;
+    height: 740px;
 }
 #number p #legend p{
     display: inline-block;
@@ -169,6 +169,9 @@ background-color: #ccc;
 }
 .colorPresetsSelctionPan {
     margin-bottom: 50px;
+}
+.legened-item {
+    padding-top:5px; 
 }
 
 
