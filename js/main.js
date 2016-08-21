@@ -110,10 +110,12 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 	}
 $scope.updateNumberOfClasses = function(selected) {
 	$scope.numberOfRanges =  Math.sqrt(selected);
+	$scope.legendPickedByUser=-1;
 	callback();
 	
 }
 	$scope.colorPicked= function(index) {
+		$scope.legendPickedByUser=-1;
 		$scope.colorPickedByUser=index;
 
    		var cIndex=index;
