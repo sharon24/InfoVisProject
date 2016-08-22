@@ -49,6 +49,9 @@
          <div id="wrapper">
             <div id="left">
                <div id="number" class="section">
+
+<a class="learn-more"  href="#" data-toggle="tooltip" title="Increasing the number of data classes will result in a more information rich map by decreasing the amount of data generalization. However, too many data classes may overwhelm the map reader with information and distract them from seeing general trends in the distribution. In addition, a large numbers of classes may compromise map legibility.use the color test option to make sure you are able to distinguish between all color."></a>
+
                   <p>Number of data classes:</p>
                   <select ng-init="selectedNumberOfClasses=9"  id="num-classes" ng-change='updateNumberOfClasses(selectedNumberOfClasses)' ng-model="selectedNumberOfClasses">
                      <option name="4">4</option>
@@ -57,12 +60,16 @@
                   </select>
                </div>
                <div class="section">
+                                <a class="learn-more"  href="#" data-toggle="tooltip" title="pick the color scheme that you prefer ,some users may find it hard to distinguish between all colors, try them out and see what fits, or choose your own colors."></a>
                   <P>  Pick a color scheme:</p>
+    
+
+ 
                   <div  class="colorPresetsSelctionPan" ng-attr-width="{{numberOfPresetsColor*45}}">
-                     <div ng-model="pColor" ng-hide="blindcheck && !presetsColors[$index].cBlindSupported" ng-init='initDefaultColors()' class="colorPresetItem" ng-click='colorPicked($index)' ng-repeat="pColor in colorRanges">
+                     <div ng-hide="blindcheck && !presetsColors[$index].cBlindSupported" ng-init='initDefaultColors()' class="colorPresetItem" ng-click='colorPicked($index)' ng-repeat="pColor in colorRanges">
                         <svg  ng-attr-width="{{numberOfRanges*15}}" ng-attr-height="{{numberOfRanges*15}}">
-                           <g ng-model="row" ng-repeat="row in pColor" >
-                              <rect ng-model="rect" ng-repeat="rect in row"
+                           <g ng-repeat="row in pColor" >
+                              <rect  ng-repeat="rect in row"
                                  ng-attr-x="{{ (15*($parent.$index))}}" 
                                  ng-attr-y="{{numberOfRanges*15 -15*($index+1)}}" 
                                  ng-attr-width="{{15}}" 
@@ -76,6 +83,8 @@
                   </div>
                </div>
                 <div class="section">
+                        <a class="learn-more"  href="#" data-toggle="tooltip" title="choose your own colors, customized colors are kept on local storage so you may use them again."></a>
+
                     Color#1: <input ng-model="color1" class="jscolor" value="ab2567">
                     Color#2: <input ng-model="color2"  class="jscolor" value="ab2567">
                      <button ng-click="addNewColor(color1,color2)" type="button">save</button> 
@@ -91,7 +100,10 @@
                </div>
                <div class="section" id="colors">
                   <div id="optionss">
+                             <a class="learn-more"  href="#" data-toggle="tooltip" title="colorblind safe are colors which are believed to be appropriate for color blind people (according to color brewer),color test allows you to make sure you are able to distinguish between all colors."></a>
                      <p>Only show:</p>
+                     
+
                      <div id="filters">
                         <input ng-model="blindcheck" type="checkbox" id="blindcheck" /><label for="blindcheck">colorblind safe</label><br/>
                         <input ng-model="colorTest" ng-change="colorCheckChange(colorTest)" type="checkbox" id="colorCheck" /><label for="colorCheck">color test</label><br/>
