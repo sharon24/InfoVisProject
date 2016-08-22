@@ -107,7 +107,7 @@ textarea {
 #map-container {
     margin-left: 264px;
     position: relative;
-    height: 800px;
+    height: 900px;
     border: 1px solid #999;
     overflow: hidden;
     margin-top: 10px;
@@ -121,7 +121,7 @@ textarea {
 
 #left {
     width: 300px;
-    height: 800px;
+    height: 900px;
     float: left;
     border-left: 1px solid #999;
     border-bottom: 1px solid #999;
@@ -133,7 +133,7 @@ textarea {
 
 #right {
     width: 200px;
-    height: 800px;
+    height: 900px;
     float: right;
     border-right: 1px solid #999;
     border-bottom: 1px solid #999;
@@ -167,9 +167,7 @@ background-color: #ccc;
 .colorPresetItem.selected {
         background-color: #999;
 }
-.colorPresetsSelctionPan {
-    margin-bottom: 50px;
-}
+
 .legened-item {
     margin-left: 10px;
     padding: 2.5px 2.5px 2.5px 2.5px;
@@ -195,7 +193,7 @@ footer {
 }
 .mainWraper {
     position:relative;
-    height: 840px;
+    height: 940px;
     padding-top:0px;
     margin-top: -10px;
 

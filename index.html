@@ -109,6 +109,7 @@
                         <input ng-model="colorTest" ng-change="colorCheckChange(colorTest)" type="checkbox" id="colorCheck" /><label for="colorCheck">color test</label><br/>
                      </div>
                      <div class="section" id="legend">
+                        <a class="learn-more"  href="#" data-toggle="tooltip" title="you may choose any of the colors ,in order to black the others out."></a>
                         <p>Map Legend:</p>
                         <div ng-repeat="row in colorRanges[colorPickedByUser]">
                            <div ng-repeat="rect in row">
