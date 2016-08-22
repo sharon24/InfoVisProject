@@ -82,6 +82,13 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 	var baseColor1=[1,133,113];
 	var baseColor2=[166,97,26];
 	var opacityRange;
+
+
+
+if (localStorage.addedNewColor==="true") {
+	$scope.presetsColors.push({cBlindSupported:false,col1:[localStorage.R1,localStorage.G1,localStorage.B1],col2:[localStorage.R2,localStorage.G2,localStorage.B2]});
+	$scope.numberOfPresetsColor=10;
+}
 	$scope.legendPicked= function(index) { 
 		if (index ==$scope.legendPickedByUser) {
 			$scope.legendPickedByUser=-1;
@@ -366,6 +373,38 @@ $scope.initDefaultColors =function()  {
 }
 
 
+function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+
+$scope.addNewColor =function(col1,col2)  {
+
+R1 = hexToR(col1);
+G1 = hexToG(col1);
+B1 = hexToB(col1);
+
+R2 = hexToR(col2);
+G2 = hexToG(col2);
+B2 = hexToB(col2);
+
+
+localStorage.addedNewColor=true;
+//$scope.presetsColors.push({cBlindSupported:false,col1:[R1,G1,B1],col2:[R2,G2,B2]})
+localStorage.R1=R1;
+localStorage.G1=G1;
+localStorage.B1=B1;
+
+localStorage.R2=R2;
+localStorage.G2=G2;
+localStorage.B2=B2;
+//localStorage.presetsColors=$scope.presetsColors;
+//localStorage.numberOfPresetsColor=$scope.numberOfPresetsColor;
+location.reload(); 
+
+
+
+}
 
 function setColorByIndex(index) {
 	var index;
