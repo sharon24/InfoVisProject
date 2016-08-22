@@ -60,7 +60,9 @@
 angular.module('selectedNumberOfClasses', [])
 app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 	var polarity,max,min;
+	$scope.seed;
 	$scope.colorPickedByUser=0;
+	$scope.runColorTest=false;
 	$scope.legendPickedByUser=-1;
 	$scope.numberOfRanges = 3;
 	$scope.numberOfPresetsColor=9;
@@ -115,6 +117,17 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 		$scope.legendPickedByUser=-1;
 		callback();
 
+	}
+
+	$scope.colorCheckChange = function(status) {
+		$scope.seed =Math.floor((Math.random() * 100) + 1); 
+		$scope.runColorTest=status;
+
+		var element = document.getElementById("keywordMap1");
+		element.parentNode.removeChild(element);
+		element=document.getElementById("map-container");
+		element.innerHTML= "<div id=\"keywordMap1\" ></div>";
+		DataMapInit();
 	}
 	$scope.colorPicked= function(index) {
 		$scope.legendPickedByUser=-1;
@@ -213,7 +226,7 @@ function initializeArray() {
 		var stateID;
 		initializeArray();
 		console.log("start getting data");
-		for (j = 1; j <= 52; j++) {  //J<129
+		for (j = 1; j <= 3; j++) {  //J<52
 			$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {	
 
 
@@ -234,7 +247,7 @@ function initializeArray() {
 					}
 				}
 				itemsProcessed++;
-				if (itemsProcessed ===52) {
+				if (itemsProcessed ===3) {
 					callback();
 				}
 			});
@@ -355,8 +368,17 @@ $scope.initDefaultColors =function()  {
 
 
 function setColorByIndex(index) {
+	var index;
 	for (i=0;i<$scope.numberOfRanges*$scope.numberOfRanges;i++) {
 
+if ($scope.runColorTest ===true) {
+	index= ((	$scope.seed +index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
+	if (index  === $scope.legendPickedByUser+1 ||$scope.legendPickedByUser ===-1 ) {
+		return ("c" +(index));
+	} else {
+		return ("black");
+	}
+} else {
 		if (polarityAvgArr[index] <=ranges[i][1]) {
 			if (i+1 === $scope.legendPickedByUser+1 ||$scope.legendPickedByUser ===-1) {
 
@@ -365,6 +387,7 @@ function setColorByIndex(index) {
 				return ("black");
 			}
 		}
+	}
 	}
 }
 function DataMapInit () {
