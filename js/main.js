@@ -177,12 +177,53 @@ function all(selector) {
 	return document.querySelectorAll(selector);
 }
 
+function checkName(data,searchString) {
+
+
+	if (typeof(data['emm:entity']) !="undefined" ) {
+							if (typeof(data['emm:entity'][0]) !="undefined" ) {
+
+						
+							for (g=0;g<data['emm:entity'].length;g++) {
+								if (data['emm:entity'][g].name.toLowerCase() === searchString.toLowerCase() ) {
+									return true;
+									
+
+							
+						}
+						}
+						 
+					} else {
+						if (data['emm:entity'].name.toLowerCase() === searchString.toLowerCase() ) {
+						return true;
+
+						} 
+					}
+					}
+
+
+if (typeof(data['nlp:entity']) !="undefined" ) {
+					if (typeof(data['nlp:entity']["PERSON"]) !="undefined") {
+							for (g=0;g<data['nlp:entity']["PERSON"].length;g++) {
+								if (data['nlp:entity']["PERSON"][g].toLowerCase() === searchString.toLowerCase() ) {
+									return true;
+								
+
+								}
+							}
+						
+
+					}
+				}
+
+}
+
 
 function initializeArray() {
 	for (i = 0; i <= 51; i++) {
 		polaritySumArr[i] = 0;
 		polarityCountArr[i] = 0;
-		polarityAvgArr[i] = 1;
+		polarityAvgArr[i] = 0;
 	}
 }
 
@@ -231,7 +272,7 @@ function initializeArray() {
 
 	function getData() {
 		var stateID;
-		var searchString="barack obama"
+		var searchString="jon snow"
 		initializeArray();
 		console.log("start getting data");
 		for (j = 1; j <= 3; j++) {  //J<52
@@ -239,39 +280,11 @@ function initializeArray() {
 
 
 				for (i = 0; i < data.length; i++) {
-					if (typeof(data[i]['georss:point']) != "undefined") {
 						polarity = data[i].polarity;
-						if (typeof(data[i]['emm:entity']) !="undefined" ) {
-							if (typeof(data[i]['emm:entity'][0]) !="undefined" ) {
+						if (checkName(data[i],searchString)) {
+	
 
-						
-							for (g=0;g<data[i]['emm:entity'].length;g++) {
-								if (data[i]['emm:entity'][g].name.toLowerCase() === searchString.toLowerCase() ) {
-							//	console.log(i + " "+ g);
-						}
-						}
-						 
-					} else {
-						if (data[i]['emm:entity'].name.toLowerCase() === searchString.toLowerCase() ) {
-						//	console.log(i);
-						} 
-					}
-					}
-
-
-if (typeof(data[i]['nlp:entity']) !="undefined" ) {
-					if (typeof(data[i]['nlp:entity']["PERSON"]) !="undefined") {
-							for (g=0;g<data[i]['nlp:entity']["PERSON"].length;g++) {
-								if (data[i]['nlp:entity']["PERSON"][g].toLowerCase() === searchString.toLowerCase() ) {
-									console.log(data[i]['nlp:entity']["PERSON"][g]);
-								}
-							}
-						
-
-					}
-				}
-			
-
+	
 						StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
 						polaritySumArr[StateID] += polarity;
 						polarityCountArr[StateID]++;
