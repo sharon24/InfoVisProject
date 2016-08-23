@@ -57,703 +57,767 @@
 		{ Id: 51, ShortName: 'PR', FullName: 'Puerto Rico' }
 		]
 	});
-angular.module('selectedNumberOfClasses', [])
-app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
-	var polarity,max,min;
-	
+	angular.module('selectedNumberOfClasses', [])
+	app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
+		var polarity,max,min;
+		var polarity1,max1,min1;
+		var polarity2,max2,min2;
+		$scope.seed;
+		$scope.colorPickedByUser = 0;
+		$scope.runColorTest = false;
+		$scope.legendPickedByUser = -1;
+		$scope.numberOfRanges = 3;
+		$scope.numberOfPresetsColor = 9;
+		$scope.presetsColors = [{cBlindSupported:true,col1:[1,133,113],col2:[166,97,26]},{cBlindSupported:true,col1:[200,28,139],col2:[77,172,38]},{cBlindSupported:true,col1:[123,50,148],col2:[0,136,55]},
+		{cBlindSupported:true,col1:[230,97,1],col2:[94,60,153]},{cBlindSupported:true,col1:[202,0,32],col2:[5,113,176]},{cBlindSupported:false,col1:[202,0,32],col2:[64,64,64]}
+		,{cBlindSupported:true,col1:[215,25,28],col2:[44,123,182]} ,{cBlindSupported:false,col1:[215,25,28],col2:[26,150,65]}
+		,{cBlindSupported:false,col1:[215,25,28],col2:[43,131,186]}];
+		const minOpacity = 0.20;
+		const maxOpacity = 0.80;
+		var range;
+		var ranges = [];
+		var polaritySumArr = [];
+		var polarityCountArr = [];
+		var polarityAvgArr = [];
+		var range1PolaritySum = [];
+		var range1PolarityCount = [];
+		var range1PolarityAvg = [];
+		var range2PolaritySum = [];
+		var range2PolarityCount = [];
+		var range2PolarityAvg = [];
 
-	$scope.seed;
-	$scope.colorPickedByUser=0;
-	$scope.runColorTest=false;
-	$scope.legendPickedByUser=-1;
-	$scope.numberOfRanges = 3;
-	$scope.numberOfPresetsColor=9;
-	$scope.presetsColors = [{cBlindSupported:true,col1:[1,133,113],col2:[166,97,26]},{cBlindSupported:true,col1:[200,28,139],col2:[77,172,38]},{cBlindSupported:true,col1:[123,50,148],col2:[0,136,55]},
-	{cBlindSupported:true,col1:[230,97,1],col2:[94,60,153]},{cBlindSupported:true,col1:[202,0,32],col2:[5,113,176]},{cBlindSupported:false,col1:[202,0,32],col2:[64,64,64]}
-,{cBlindSupported:true,col1:[215,25,28],col2:[44,123,182]} ,{cBlindSupported:false,col1:[215,25,28],col2:[26,150,65]}
-,{cBlindSupported:false,col1:[215,25,28],col2:[43,131,186]}];
-	const minOpacity=0.20;
-	const maxOpacity=0.80;
-	var range;
-	var ranges =[];
-	var polaritySumArr = [];
-	var polarityCountArr = [];
-	var polarityAvgArr = [];
-	var ColorScheme;
+		var ColorScheme;
 
-	var baseColor1=[1,133,113];
-	var baseColor2=[166,97,26];
-	var opacityRange;
+		var baseColor1 = [1,133,113];
+		var baseColor2 = [166,97,26];
+		var opacityRange;
 
-if (typeof(localStorage.srcString) =="undefined"   ) {
-localStorage.srcString="Barack Obama";
-}
+		if (typeof(localStorage.srcString) == "undefined"   ) {
+			localStorage.srcString = "Barack Obama";
+		}
+		
+		if (localStorage.addedNewColor === "true") {
+			$scope.presetsColors.push({cBlindSupported:false,col1:[localStorage.R1,localStorage.G1,localStorage.B1],col2:[localStorage.R2,localStorage.G2,localStorage.B2]});
+			$scope.numberOfPresetsColor=10;
+		}
 
-if (localStorage.addedNewColor==="true") {
-	$scope.presetsColors.push({cBlindSupported:false,col1:[localStorage.R1,localStorage.G1,localStorage.B1],col2:[localStorage.R2,localStorage.G2,localStorage.B2]});
-	$scope.numberOfPresetsColor=10;
-}
-	$scope.legendPicked= function(index) { 
-		if (index ==$scope.legendPickedByUser) {
+		$scope.legendPicked = function(index) { 
+			if (index ==$scope.legendPickedByUser) {
+				$scope.legendPickedByUser = -1;
+				sColor=$(".legened-item.selected");
+				if (sColor != null) {
+					sColor.className = "legened-item";
+				}
+				var element = document.getElementById("keywordMap1");
+					element.parentNode.removeChild(element);
+				element=document.getElementById("map-container");
+				element.innerHTML= "<div id=\"keywordMap1\" ></div>";
+				DataMapInit();
+			} else {
+				$scope.legendPickedByUser = index;
+				var element = document.getElementById("keywordMap1");
+				element.parentNode.removeChild(element);
+				element = document.getElementById("map-container");
+				element.innerHTML = "<div id=\"keywordMap1\" ></div>";
+				DataMapInit();
+
+				sColor=$(".legened-item.selected");
+				if (sColor != null) {
+					sColor.className = "legened-item";
+				}
+				sColors = all(".legened-item");
+				sColors[index].className = "legened-item selected";
+			}
+		}
+
+		$scope.updateNumberOfClasses = function(selected) {
+			$scope.numberOfRanges = Math.sqrt(selected);
 			$scope.legendPickedByUser=-1;
-			sColor=$(".legened-item.selected");
-			if (sColor != null) {
-				sColor.className="legened-item";
-			}
-			var element = document.getElementById("keywordMap1");
-			element.parentNode.removeChild(element);
-			element=document.getElementById("map-container");
-			element.innerHTML= "<div id=\"keywordMap1\" ></div>";
-			DataMapInit();
-		}  else {
-			$scope.legendPickedByUser=index;
+			callback();
+		}
+
+		$scope.colorCheckChange = function(status) {
+			$scope.seed = Math.floor((Math.random() * 100) + 1); 
+			$scope.runColorTest = status;
 
 			var element = document.getElementById("keywordMap1");
 			element.parentNode.removeChild(element);
-			element=document.getElementById("map-container");
-			element.innerHTML= "<div id=\"keywordMap1\" ></div>";
+			element = document.getElementById("map-container");
+			element.innerHTML = "<div id=\"keywordMap1\" ></div>";
 			DataMapInit();
-
-			sColor=$(".legened-item.selected");
-			if (sColor != null) {
-				sColor.className="legened-item";
-			}
-			sColors=all(".legened-item");
-			sColors[index].className="legened-item selected";
 		}
 
-	}
-	$scope.updateNumberOfClasses = function(selected) {
-		$scope.numberOfRanges =  Math.sqrt(selected);
-		$scope.legendPickedByUser=-1;
-		callback();
+		$scope.colorPicked = function(index) {
+			$scope.legendPickedByUser = -1;
+			$scope.colorPickedByUser = index;
 
-	}
-
-	$scope.colorCheckChange = function(status) {
-		$scope.seed =Math.floor((Math.random() * 100) + 1); 
-		$scope.runColorTest=status;
-
-		var element = document.getElementById("keywordMap1");
-		element.parentNode.removeChild(element);
-		element=document.getElementById("map-container");
-		element.innerHTML= "<div id=\"keywordMap1\" ></div>";
-		DataMapInit();
-	}
-	$scope.colorPicked= function(index) {
-		$scope.legendPickedByUser=-1;
-		$scope.colorPickedByUser=index;
-
-		var cIndex=index;
-		for (var j=0; j<$scope.numberOfRanges; j++) {
-			for (var q=0; q<$scope.numberOfRanges; q++) {
-				var key ='c' +(j*$scope.numberOfRanges+q+1)
-				ColorScheme[key]="rgba(" +$scope.colorRanges[cIndex][j][q][0] + "," +$scope.colorRanges[cIndex][j][q][1]
-					+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," +$scope.colorRanges[cIndex][j][q][3]+')';
-			}
-		}
-		
-		var element = document.getElementById("keywordMap1");
-		element.parentNode.removeChild(element);
-		element=document.getElementById("map-container");
-		element.innerHTML= "<div id=\"keywordMap1\" ></div>";
-		DataMapInit();
-
-		sColor=$(".colorPresetItem.selected");
-		if (sColor != null) {
-
-			if (sColor.className.includes("ng-hide")) {
-				sColor.className="colorPresetItem ng-hide";
-			} else {
-				sColor.className="colorPresetItem";
-			}
-		}
-
-		sColors=all(".colorPresetItem");
-		sColors[index].className="colorPresetItem selected";
-	}
-
-function $(selector) {
-	return document.querySelector(selector);
-}
-
-function all(selector) {
-	return document.querySelectorAll(selector);
-}
-
-
-function checkName(data,searchString) {
-
-
-	if (typeof(data['emm:entity']) !="undefined" ) {
-							if (typeof(data['emm:entity'][0]) !="undefined" ) {
-
-						
-							for (g=0;g<data['emm:entity'].length;g++) {
-								if (data['emm:entity'][g].name.toLowerCase() === searchString.toLowerCase() ) {
-									return true;
-									
-
-							
-						}
-						}
-						 
-					} else {
-						if (data['emm:entity'].name.toLowerCase() === searchString.toLowerCase() ) {
-						return true;
-
-						} 
-					}
-					}
-
-
-if (typeof(data['nlp:entity']) !="undefined" ) {
-					if (typeof(data['nlp:entity']["PERSON"]) !="undefined") {
-							for (g=0;g<data['nlp:entity']["PERSON"].length;g++) {
-								if (data['nlp:entity']["PERSON"][g].toLowerCase() === searchString.toLowerCase() ) {
-									return true;
-								
-
-								}
-							}
-						
-
-					}
-				}
-
-}
-
-
-function initializeArray() {
-	for (i = 0; i <= 51; i++) {
-		polaritySumArr[i] = 0;
-		polarityCountArr[i] = 0;
-		polarityAvgArr[i] = 0;
-	}
-}
-
-	//calculate average polarity of each state
-	function calcAvg() {
-		var polaritySum;
-		var polarityCount;
-
-		for (i = 0; i<=51; i++) {
-
-
-
-			polaritySum = polaritySumArr[i];
-			polarityCount = polarityCountArr[i];
-			if (polarityCount != 0) {
-				polarityAvgArr[i] = polaritySum/polarityCount;
-			}
-			if (i==0) {
-				min=polarityAvgArr[i];
-				max=polarityAvgArr[i];
-			} else {
-				if (polarityAvgArr[i]<min) {
-					min=polarityAvgArr[i];
-				}
-				if (polarityAvgArr[i]>max) {
-					max=polarityAvgArr[i];
-				}
-
-			}
-			console.log( "polarityAvgArr["+i+"]:" +polarityAvgArr[i] );
-		}
-		console.log("calculated avgs");
-	}
-
-	function callback () { 
-		console.log('all done');
-		printRanges();
-		setColorScheme();
-		  angular.element(document).ready(function () {
-    $scope.colorPicked(0); 
-});
-		
-		//});
-	}
-	var itemsProcessed = 0;
-
-	function getData(srcString) {
-		var stateID;
-		var searchString=srcString;
-		initializeArray();
-		console.log("start getting data");
-		for (j = 1; j <= 3; j++) {  //J<52
-			$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {	
-
-
-				for (i = 0; i < data.length; i++) {
-						polarity = data[i].polarity;
-						if (checkName(data[i],searchString)) {
-	
-
-	
-						StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
-						polaritySumArr[StateID] += polarity;
-						polarityCountArr[StateID]++;
-					}
-				}
-				itemsProcessed++;
-				if (itemsProcessed ===3) {
-					callback();
-				}
-			});
-		}
-		console.log("data recieved");
-	}
-
-	function printRanges () {
-		calcAvg();		
-		console.log("min=");
-		console.log(min);
-		console.log("  max=");
-		console.log(max);
-		console.log("\n");
-		console.log(""+polaritySumArr[12]+" "+polarityCountArr[12]+" "+polarityAvgArr[12]+"");
-
-if (max >=0 && min>=0) {
-		range = max-min;
-	}   else if (min<0 && max>=0)  {
-		range = max-math.abs(min);
-	} else if (min<0 && max<0) {
-		range = math.abs(max)-math.abs(min);
-	}
-
-
-		var numOfRanges=$scope.numberOfRanges*$scope.numberOfRanges;
-		for (i = 0; i < numOfRanges; i++) {
-			console.log("range ",i+1,":",min+i*range/numOfRanges,"-",min+(i+1)*range/numOfRanges,"\n");
-			ranges[i]=[min+i*range/numOfRanges,min+(i+1)*range/numOfRanges];
-		}
-	}
-
-
-	function calc2dOpacity (colorIndex,op1,op2) {
-		var newOp=op1+(op2*(1-op1));
-		var r=Math.round(($scope.presetsColors[colorIndex].col1[0]*op1+$scope.presetsColors[colorIndex].col2[0]*op2*(1-op1))/newOp);
-		if (r>255) {
-			r=255;
-		}
-		var b=Math.round(($scope.presetsColors[colorIndex].col1[1]*op1+$scope.presetsColors[colorIndex].col2[1]*op2*(1-op1))/newOp);
-		if (b>255) {
-			b=255;
-		}
-
-		var g=Math.round(($scope.presetsColors[colorIndex].col1[2]*op1+$scope.presetsColors[colorIndex].col2[2]*op2*(1-op1))/newOp);
-		if (g>255) {
-			g=255;
-		}
-		return [r,b,g,newOp];
-
-	}
-
-	function setColorScheme() {
-		range = (maxOpacity-minOpacity)/($scope.numberOfRanges-1);
-		var opacityRange =[];
-		$scope.colorRanges=[];
-		for (i = 0; i < $scope.numberOfRanges; i++) {
-			opacityRange[i]=minOpacity+i*range;
-		}
-
-
-		for (var i=0;i<$scope.numberOfPresetsColor;i++){
-			$scope.colorRanges[i]=[];
-		}
-
-		for (var i=0;i<$scope.numberOfPresetsColor;i++){
-			for (var j=0; j<$scope.numberOfRanges; j++) {
-				$scope.colorRanges[i][j]=[];
-			}
-		}
-		for (var i=0;i<$scope.numberOfPresetsColor;i++){
+			var cIndex = index;
 			for (var j=0; j<$scope.numberOfRanges; j++) {
 				for (var q=0; q<$scope.numberOfRanges; q++) {
-					$scope.colorRanges[i][j][q]=calc2dOpacity(i,opacityRange[j],opacityRange[q]);
+					var key ='c' +(j*$scope.numberOfRanges+q+1)
+					ColorScheme[key]="rgba(" +$scope.colorRanges[cIndex][j][q][0] + "," +$scope.colorRanges[cIndex][j][q][1]
+						+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," +$scope.colorRanges[cIndex][j][q][3]+')';
 				}
+			}
+		
+			var element = document.getElementById("keywordMap1");
+			element.parentNode.removeChild(element);
+			element = document.getElementById("map-container");
+			element.innerHTML = "<div id=\"keywordMap1\" ></div>";
+			DataMapInit();
 
+			sColor=$(".colorPresetItem.selected");
+			if (sColor != null) {
+
+				if (sColor.className.includes("ng-hide")) {
+					sColor.className = "colorPresetItem ng-hide";
+				} else {
+					sColor.className = "colorPresetItem";
+				}
+			}
+
+			sColors=all(".colorPresetItem");
+			sColors[index].className = "colorPresetItem selected";
+		}
+
+		function $(selector) {
+			return document.querySelector(selector);
+		}
+
+		function all(selector) {
+			return document.querySelectorAll(selector);
+		}
+		
+		function checkName(data,searchString) {
+			if (typeof(data['emm:entity']) != "undefined" ) {
+				if (typeof(data['emm:entity'][0]) != "undefined" ) {	
+					for (g=0;g<data['emm:entity'].length;g++) {
+						if (data['emm:entity'][g].name.toLowerCase() === searchString.toLowerCase() ) {
+							return true;	
+						}
+					}	 
+				} else {
+					if (data['emm:entity'].name.toLowerCase() === searchString.toLowerCase() ) {
+					return true;
+					} 
+				}
+			}
+
+			if (typeof(data['nlp:entity']) != "undefined" ) {
+				if (typeof(data['nlp:entity']["PERSON"]) != "undefined") {
+					for (g=0;g<data['nlp:entity']["PERSON"].length;g++) {
+						if (data['nlp:entity']["PERSON"][g].toLowerCase() === searchString.toLowerCase() ) {
+								return true;
+						}
+					}
+				}
 			}
 		}
 
-		ColorScheme ={
-			c1:'',
-			c2:'',
-			c3:'',
-			c4:'',
-			c5 :'',
-			c6:'',
-			c7:'',
-			c8:'',
-			c9:'',
-			c10:'',
-			c11:'',
-			c12:'',
-			c13:'',
-			c14:'',
-			c15:'',
-			c16:'',
-		};
-		var cIndex=0;
-		for (var j=0; j<$scope.numberOfRanges; j++) {
-			for (var q=0; q<$scope.numberOfRanges; q++) {
-				var key ='c' +(j*$scope.numberOfRanges+q+1)
-				ColorScheme[key]="rgba(" +$scope.colorRanges[cIndex][j][q][0] + "," +$scope.colorRanges[cIndex][j][q][1]
-					+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," +$scope.colorRanges[cIndex][j][q][3]+')';
-}
-}
-
-
-
-
-
-}
-
-$scope.initDefaultColors =function()  {
-	sColor=$(".colorPresetItem");
-	sColor.className="colorPresetItem selected";
-}
-
-$scope.executeQuery =function(person) {
-localStorage.srcString=person;
-location.reload(); 
-}
-
-function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
-function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
-function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
-function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
-
-$scope.addNewColor =function(col1,col2)  {
-
-R1 = hexToR(col1);
-G1 = hexToG(col1);
-B1 = hexToB(col1);
-
-R2 = hexToR(col2);
-G2 = hexToG(col2);
-B2 = hexToB(col2);
-
-
-localStorage.addedNewColor=true;
-//$scope.presetsColors.push({cBlindSupported:false,col1:[R1,G1,B1],col2:[R2,G2,B2]})
-localStorage.R1=R1;
-localStorage.G1=G1;
-localStorage.B1=B1;
-
-localStorage.R2=R2;
-localStorage.G2=G2;
-localStorage.B2=B2;
-//localStorage.presetsColors=$scope.presetsColors;
-//localStorage.numberOfPresetsColor=$scope.numberOfPresetsColor;
-location.reload(); 
-
-
-
-}
-
-function setColorByIndex(index) {
-	var index;
-	for (i=0;i<$scope.numberOfRanges*$scope.numberOfRanges;i++) {
-
-if ($scope.runColorTest ===true) {
-	index= ((	$scope.seed +index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
-	if (index  === $scope.legendPickedByUser+1 ||$scope.legendPickedByUser ===-1 ) {
-		return ("c" +(index));
-	} else {
-		return ("black");
-	}
-} else {
-		if (polarityAvgArr[index] <=ranges[i][1]) {
-			if (i+1 === $scope.legendPickedByUser+1 ||$scope.legendPickedByUser ===-1) {
-
-				return ("c" +(i+1));
-			} else {
-				return ("black");
+		function initializeArray() {
+			for (i = 0; i <= 51; i++) {
+				polaritySumArr[i] = 0;
+				polarityCountArr[i] = 0;
+				polarityAvgArr[i] = 1;
 			}
 		}
-	}
-	}
-}
-function DataMapInit () {
-	var keywordMap1 = new Datamap({
-		scope: 'usa',
-		element: document.getElementById("keywordMap1"),
-		geographyConfig: {
-			highlightBorderColor: '#bada55',
 
-			highlightFillColor: '#FC8D59',
-			popupTemplate: function(geography, data) {
-				return '<div class="hoverinfo" style="font-size:40px;">' +geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity:' +data.average
-			},
-			highlightBorderWidth: 3,
-		},
-		fills: ColorScheme,
-		data:{
-			"AZ": {
-				"fillKey": setColorByIndex(2),
-				"electoralVotes": 11,
-				"average":polarityAvgArr[2]
-			},
-			"CO": {
-				"fillKey": setColorByIndex(5),
-				"electoralVotes": 9,
-				"average":polarityAvgArr[5]
-			},
-			"DE": {
-				"fillKey": setColorByIndex(7),
-				"electoralVotes": 3,
-				"average":polarityAvgArr[7]
-			},
-			"FL": {
-				"fillKey": setColorByIndex(8),
-				"electoralVotes": 29,
-				"average":polarityAvgArr[8]
-			},
-			"GA": {
-				"fillKey": setColorByIndex(9),
-				"electoralVotes": 16,
-				"average":polarityAvgArr[9]
-			},
-			"HI": {
-				"fillKey": setColorByIndex(10),
-				"electoralVotes": 4,
-				"average":polarityAvgArr[10]
-			},
-			"ID": {
-				"fillKey": setColorByIndex(11),
-				"electoralVotes": 4,
-				"average":polarityAvgArr[11]
-			},
-			"IL": {
-				"fillKey": setColorByIndex(12),
-				"electoralVotes": 20, 
-				"average":polarityAvgArr[12]
-			},
-			"IN": {
-				"fillKey":setColorByIndex(13),
-				"electoralVotes": 11,
-				"average":polarityAvgArr[13]
-			},
-			"IA": {
-				"fillKey": setColorByIndex(14),
-				"electoralVotes": 6,
-				"average":polarityAvgArr[14]
-			},
-			"KS": {
-				"fillKey": setColorByIndex(15),
-				"electoralVotes": 6,
-				"average":polarityAvgArr[15]
-			},
-			"KY": {
-				"fillKey": setColorByIndex(16),
-				"electoralVotes": 8,
-				"average":polarityAvgArr[16]
-			},
-			"LA": {
-				"fillKey":setColorByIndex(17),
-				"electoralVotes": 8,
-				"average":polarityAvgArr[17]
-			},
-			"MD": {
-				"fillKey": setColorByIndex(19),
-				"electoralVotes": 10,
-				"average":polarityAvgArr[19]
-			},
-			"ME": {
-				"fillKey": setColorByIndex(18),
-				"electoralVotes": 4,
-				"average":polarityAvgArr[18]
-			},
-			"MA": {
-				"fillKey": setColorByIndex(20),
-				"electoralVotes": 11,
-				"average":polarityAvgArr[20]
-			},
-			"MN": {
-				"fillKey": setColorByIndex(22),
-				"electoralVotes": 10,
-				"average":polarityAvgArr[22]
-			},
-			"MI": {
-				"fillKey":setColorByIndex(21),
-				"electoralVotes": 16,
-				"average":polarityAvgArr[21]
-			},
-			"MS": {
-				"fillKey": setColorByIndex(23),
-				"electoralVotes": 6,
-				"average":polarityAvgArr[23]
-			},
-			"MO": {
-				"fillKey": setColorByIndex(24),
-				"electoralVotes": 10,
-				"average":polarityAvgArr[24]
-			},
-			"MT": {
-				"fillKey":setColorByIndex(25),
-				"electoralVotes": 3,
-				"average":polarityAvgArr[25]
-			},
-			"NC": {
-				"fillKey": setColorByIndex(32),
-				"electoralVotes": 15,
-				"average":polarityAvgArr[32]
-			},
-			"NE": {
-				"fillKey": setColorByIndex(26),
-				"electoralVotes": 5,
-				"average":polarityAvgArr[26]
-			},
-			"NV": {
-				"fillKey": setColorByIndex(27),
-				"electoralVotes": 6,
-				"average":polarityAvgArr[27]
-			},
-			"NH": {
-				"fillKey": setColorByIndex(28),
-				"electoralVotes": 4,
-				"average":polarityAvgArr[28]
-			},
-			"NJ": {
-				"fillKey": setColorByIndex(29),
-				"electoralVotes": 14,
-				"average":polarityAvgArr[29]
-			},
-			"NY": {
-				"fillKey": setColorByIndex(31),
-				"electoralVotes": 29,
-				"average":polarityAvgArr[31]
-			},
-			"ND": {
-				"fillKey": setColorByIndex(33),
-				"electoralVotes": 3,
-				"average":polarityAvgArr[33]
-			},
-			"NM": {
-				"fillKey": setColorByIndex(30),
-				"electoralVotes": 5,
-				"average":polarityAvgArr[30]
-			},
-			"OH": {
-				"fillKey":setColorByIndex(34),
-				"electoralVotes": 18,
-				"average":polarityAvgArr[34]
-			},
-			"OK": {
-				"fillKey": setColorByIndex(35),
-				"electoralVotes": 7,
-				"average":polarityAvgArr[35]
-			},
-			"OR": {
-				"fillKey":setColorByIndex(36),
-				"electoralVotes": 7,
-				"average":polarityAvgArr[36]
-			},
-			"PA": {
-				"fillKey": setColorByIndex(37),
-				"electoralVotes": 20,
-				"average":polarityAvgArr[37]
-			},
-			"RI": {
-				"fillKey": setColorByIndex(38),
-				"electoralVotes": 4,
-				"average":polarityAvgArr[38]
-			},
-			"SC": {
-				"fillKey": setColorByIndex(39),
-				"electoralVotes": 9,
-				"average":polarityAvgArr[39]
-			},
-			"SD": {
-				"fillKey": setColorByIndex(40),
-				"electoralVotes": 3,
-				"average":polarityAvgArr[40]
-			},
-			"TN": {
-				"fillKey": setColorByIndex(41),
-				"electoralVotes": 11,
-				"average":polarityAvgArr[41]
-			},
-			"TX": {
-				"fillKey": setColorByIndex(42),
-				"electoralVotes": 38,
-				"average":polarityAvgArr[42]
-			},
-			"UT": {
-				"fillKey": setColorByIndex(43),
-				"electoralVotes": 6,
-				"average":polarityAvgArr[43]
-			},
-			"WI": {
-				"fillKey": setColorByIndex(48),
-				"electoralVotes": 10,
-				"average":polarityAvgArr[48]
-			},
-			"VA": {
-				"fillKey": setColorByIndex(45),
-				"electoralVotes": 13,
-				"average":polarityAvgArr[45]
-			},
-			"VT": {
-				"fillKey": setColorByIndex(44),
-				"electoralVotes": 3,
-				"average":polarityAvgArr[44]
-			},
-			"WA": {
-				"fillKey": setColorByIndex(46),
-				"electoralVotes": 12,
-				"average":polarityAvgArr[46]
-			},
-			"WV": {
-				"fillKey": setColorByIndex(47),
-				"electoralVotes": 5,
-				"average":polarityAvgArr[47]
-			},
-			"WY": {
-				"fillKey": setColorByIndex(49),
-				"electoralVotes": 3,
-				"average":polarityAvgArr[49]
-			},
-			"CA": {
-				"fillKey": setColorByIndex(4),
-				"electoralVotes": 55,
-				"average":polarityAvgArr[4]
-			},
-			"CT": {
-				"fillKey": setColorByIndex(6),
-				"electoralVotes": 7,
-				"average":polarityAvgArr[6]
-			},
-			"AK": {
-				"fillKey": setColorByIndex(1),
-				"electoralVotes": 3,
-				"average":polarityAvgArr[1]
-			},
-			"AR": {
-				"fillKey": setColorByIndex(3),
-				"electoralVotes": 6,
-				"average":polarityAvgArr[3]
-			},
-			"AL": {
-				"fillKey": setColorByIndex(0),
-				"electoralVotes": 9,
-				"average":polarityAvgArr[0]
-			},
-			"DC": {
-				"fillKey": setColorByIndex(50),
-				"electoralVotes": 3,
-				"average":polarityAvgArr[50]
+		function InitializeRangeArray() {
+			for (i = 0; i <= 51; i++) {
+				range1PolaritySum[i] = 0;
+				range1PolarityCount[i] = 0;
+				range1PolarityAvg[i] = 0;
+				range2PolaritySum[i] = 0;
+				range2PolarityCount[i] = 0;
+				range2PolarityAvg[i] = 0;
 			}
 		}
-	});
-keywordMap1.labels({"fontSize": 15});
-}
 
+		//calculate average polarity of each state
+		function calcAvg() {
+			var polaritySum;
+			var polarityCount;
 
+			for (i = 0; i<=51; i++) {
+				polaritySum = polaritySumArr[i];
+				polarityCount = polarityCountArr[i];
+				if (polarityCount != 0) {
+					polarityAvgArr[i] = polaritySum/polarityCount;
+				}
+				if (i == 0) {
+					min = polarityAvgArr[i];
+					max = polarityAvgArr[i];
+				} else {
+					if (polarityAvgArr[i] < min) {
+						min = polarityAvgArr[i];
+					}
+					if (polarityAvgArr[i] > max) {
+						max = polarityAvgArr[i];
+					}
 
-getData(localStorage.srcString);
+				}
+				console.log("polarityAvgArr["+i+"]:" + polarityAvgArr[i]);
+			}
+			console.log("calculated avgs");
+		}
 
+		function calcRangeAvg() {
+			var polarity1Sum,polarity2Sum;
+			var polarity1Count,polarity2Count;
 
-}]);
+			for (i = 0; i<=51; i++) {
+				polarity1Sum = range1PolaritySum[i];
+				polarity1Count = range1PolarityCount[i];
+				polarity2Sum = range2PolaritySum[i];
+				polarity2Count = range2PolarityCount[i];
+				if (polarity1Count != 0) {
+					range1PolarityAvg[i] = polarity1Sum/polarity1Count;
+				}
+				if (polarity2Count != 0) {
+					range2PolarityAvg[i] = polarity2Sum/polarity2Count;
+				}
+				if (i == 0) {
+					min1 = range1PolarityAvg[i];
+					max1 = range1PolarityAvg[i];
+					min2 = range2PolarityAvg[i];
+					max2 = range2PolarityAvg[i];
+				} else {
+					if (range1PolarityAvg[i] < min1) {
+						min1 = range1PolarityAvg[i];
+					}
+					if (range1PolarityAvg[i] > max1) {
+						max1 = range1PolarityAvg[i];
+					}
+					if (range2PolarityAvg[i] < min2) {
+						min2 = range2PolarityAvg[i];
+					}
+					if (range2PolarityAvg[i] > max2) {
+						max2 = range2PolarityAvg[i];
+					}
+				}
+				//console.log("polarityAvgArr["+i+"]:" + polarityAvgArr[i]);
+			}
+			console.log("calculated range avgs");
+		}
+
+		function callback () { 
+			console.log('all done');
+			printRanges();
+			setColorScheme();
+			angular.element(document).ready(function() {
+    			$scope.colorPicked(0);
+			});
+			//});
+		}
+
+		var itemsProcessed = 0;
+
+		function getData(srcString) {
+			var stateID;
+			var searchString = srcString;
+			initializeArray();
+			console.log("start getting data");
+			for (j = 1; j <= 3; j++) {  //J<52
+				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
+					for (i = 0; i < data.length; i++) {
+						polarity = data[i].polarity;
+						if (checkName(data[i],searchString)) {
+							StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
+							polaritySumArr[StateID] += polarity;
+							polarityCountArr[StateID]++;
+						}
+					}
+					itemsProcessed++;
+					if (itemsProcessed === 3) {
+						callback();
+					}
+				});
+			}
+			console.log("data recieved");
+		}
+
+		$scope.filterData = function() {
+			console.log("filtering");
+			var StateID;
+			var range1startstr = document.getElementById("startdatepicker1").value;
+			var range1start = range1startstr.split("/");
+			var date1start = new Date(range1start[2],range1start[0]-1,range1start[1]);
+			var range1endstr = document.getElementById("enddatepicker1").value;
+			var range1end = range1endstr.split("/");
+			var date1end = new Date(range1end[2],range1end[0]-1,range1end[1]);
+			var range2startstr = document.getElementById("startdatepicker2").value;
+			var range2start = range2startstr.split("/");
+			var date2start = new Date(range2start[2],range2start[0]-1,range2start[1]);
+			var range2endstr = document.getElementById("enddatepicker2").value;
+			var range2end = range2endstr.split("/");
+			var date2end = new Date(range2end[2],range2end[0]-1,range2end[1]);
+
+			InitializeRangeArray();
+			console.log("start getting range data");
+			for (j = 1; j <= 3; j++) {  //J<52
+				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
+					for (i = 0; i < data.length; i++) {
+						if (typeof(data[i]['georss:point']) != "undefined") {
+							var currDateStr = data[i]['dc:date'];
+							var split1 = currDateStr.split("T");
+							var split2 = split1[0].split("-");
+							var currDate = new Date(split2[0],split2[1]-1,split2[2]);
+
+							if ((currDate >= date1start) && (currDate <= date1end)) {
+								polarity1 = data[i].polarity;
+								StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
+								range1PolaritySum[StateID] += polarity1;
+								range1PolarityCount[StateID]++;
+							}
+
+							if ((currDate >= date2start) && (currDate <= date2end)) {
+								polarity2 = data[i].polarity;
+								StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
+								range2PolaritySum[StateID] += polarity2;
+								range2PolarityCount[StateID]++;
+							}
+						}
+					}
+					itemsProcessed++;
+					if (itemsProcessed === 3) {
+						callback();
+					}
+				});
+			}
+			console.log("range data recieved");
+			calcRangeAvg();
+		}
+
+		function printRanges() {
+			calcAvg();		
+			console.log("min=");
+			console.log(min);
+			console.log("  max=");
+			console.log(max);
+			console.log("\n");
+			console.log(""+polaritySumArr[12]+" "+polarityCountArr[12]+" "+polarityAvgArr[12]+"");
+
+			if (max >= 0 && min >= 0) {
+				range = max-min;
+			} else if (min < 0 && max >= 0)  {
+				range = max-math.abs(min);
+			} else if (min < 0 && max < 0) {
+				range = math.abs(max)-math.abs(min);
+			}
+
+			var numOfRanges=$scope.numberOfRanges*$scope.numberOfRanges;
+			for (i = 0; i < numOfRanges; i++) {
+				console.log("range ",i+1,":",min+i*range/numOfRanges,"-",min+(i+1)*range/numOfRanges,"\n");
+				ranges[i]=[min+i*range/numOfRanges,min+(i+1)*range/numOfRanges];
+			}
+		}
+
+		function calc2dOpacity (colorIndex,op1,op2) {
+			var newOp = op1+(op2*(1-op1));
+			var r = Math.round(($scope.presetsColors[colorIndex].col1[0]*op1+$scope.presetsColors[colorIndex].col2[0]*op2*(1-op1))/newOp);
+			if (r>255) {
+				r=255;
+			}
+			var b = Math.round(($scope.presetsColors[colorIndex].col1[1]*op1+$scope.presetsColors[colorIndex].col2[1]*op2*(1-op1))/newOp);
+			if (b>255) {
+				b=255;
+			}
+			var g = Math.round(($scope.presetsColors[colorIndex].col1[2]*op1+$scope.presetsColors[colorIndex].col2[2]*op2*(1-op1))/newOp);
+			if (g>255) {
+				g=255;
+			}
+			return [r,b,g,newOp];
+		}
+
+		function setColorScheme() {
+			range = (maxOpacity-minOpacity)/($scope.numberOfRanges-1);
+			var opacityRange = [];
+			$scope.colorRanges = [];
+			for (i = 0; i < $scope.numberOfRanges; i++) {
+				opacityRange[i]=minOpacity+i*range;
+			}
+
+			for (var i=0;i<$scope.numberOfPresetsColor;i++) {
+				$scope.colorRanges[i]=[];
+			}
+
+			for (var i=0;i<$scope.numberOfPresetsColor;i++) {
+				for (var j=0; j<$scope.numberOfRanges; j++) {
+					$scope.colorRanges[i][j]=[];
+				}
+			}
+			for (var i=0;i<$scope.numberOfPresetsColor;i++) {
+				for (var j=0; j<$scope.numberOfRanges; j++) {
+					for (var q=0; q<$scope.numberOfRanges; q++) {
+						$scope.colorRanges[i][j][q]=calc2dOpacity(i,opacityRange[j],opacityRange[q]);
+					}
+
+				}
+			}
+
+			ColorScheme ={
+				c1:'',
+				c2:'',
+				c3:'',
+				c4:'',
+				c5 :'',
+				c6:'',
+				c7:'',
+				c8:'',
+				c9:'',
+				c10:'',
+				c11:'',
+				c12:'',
+				c13:'',
+				c14:'',
+				c15:'',
+				c16:'',
+			};
+			var cIndex = 0;
+			for (var j=0; j<$scope.numberOfRanges; j++) {
+				for (var q=0; q<$scope.numberOfRanges; q++) {
+					var key ='c' +(j*$scope.numberOfRanges+q+1)
+					ColorScheme[key]="rgba(" +$scope.colorRanges[cIndex][j][q][0] + "," +$scope.colorRanges[cIndex][j][q][1]
+						+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," +$scope.colorRanges[cIndex][j][q][3]+')';
+				}
+			}
+		}
+
+		$scope.initDefaultColors = function() {
+			sColor=$(".colorPresetItem");
+			sColor.className="colorPresetItem selected";
+		}
+		
+		$scope.executeQuery = function(person) {
+			localStorage.srcString = person;
+			location.reload(); 
+		}
+
+		function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+		function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+		function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+		function cutHex(h) {return (h.charAt(0) == "#") ? h.substring(1,7):h}
+
+		$scope.addNewColor = function(col1,col2) {
+			R1 = hexToR(col1);
+			G1 = hexToG(col1);
+			B1 = hexToB(col1);
+
+			R2 = hexToR(col2);
+			G2 = hexToG(col2);
+			B2 = hexToB(col2);
+
+			localStorage.addedNewColor = true;
+			//$scope.presetsColors.push({cBlindSupported:false,col1:[R1,G1,B1],col2:[R2,G2,B2]})
+			localStorage.R1 = R1;
+			localStorage.G1 = G1;
+			localStorage.B1 = B1;
+			localStorage.R2 = R2;
+			localStorage.G2 = G2;
+			localStorage.B2 = B2;
+			//localStorage.presetsColors=$scope.presetsColors;
+			//localStorage.numberOfPresetsColor=$scope.numberOfPresetsColor;
+			location.reload();
+		}
+
+		function setColorByIndex(index) {
+			var index;
+			for (i=0;i<$scope.numberOfRanges*$scope.numberOfRanges;i++) {
+				if ($scope.runColorTest === true) {
+					index = (($scope.seed + index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
+					if (index  === $scope.legendPickedByUser+1 || $scope.legendPickedByUser === -1) {
+						return ("c" + (index));
+					} else {
+						return ("black");
+					}
+				} else {
+					if (polarityAvgArr[index] <= ranges[i][1]) {
+						if (i+1 === $scope.legendPickedByUser+1 || $scope.legendPickedByUser ===-1) {
+							return ("c" + (i+1));
+						} else {
+							return ("black");
+						}
+					}
+				}
+			}
+		}
+
+		function DataMapInit () {
+			var keywordMap1 = new Datamap({
+				scope: 'usa',
+				element: document.getElementById("keywordMap1"),
+				geographyConfig: {
+					highlightBorderColor: '#bada55',
+
+					highlightFillColor: '#FC8D59',
+					popupTemplate: function(geography, data) {
+						return '<div class="hoverinfo" style="font-size:40px;">' + geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity:' +data.average
+					},
+					highlightBorderWidth: 3,
+				},
+				fills: ColorScheme,
+				data:{
+					"AZ": {
+						"fillKey": setColorByIndex(2),
+						"electoralVotes": 11,
+						"average":polarityAvgArr[2]
+					},
+					"CO": {
+						"fillKey": setColorByIndex(5),
+						"electoralVotes": 9,
+						"average":polarityAvgArr[5]
+					},
+					"DE": {
+						"fillKey": setColorByIndex(7),
+						"electoralVotes": 3,
+						"average":polarityAvgArr[7]
+					},
+					"FL": {
+						"fillKey": setColorByIndex(8),
+						"electoralVotes": 29,
+						"average":polarityAvgArr[8]
+					},
+					"GA": {
+						"fillKey": setColorByIndex(9),
+						"electoralVotes": 16,
+						"average":polarityAvgArr[9]
+					},
+					"HI": {
+						"fillKey": setColorByIndex(10),
+						"electoralVotes": 4,
+						"average":polarityAvgArr[10]
+					},
+					"ID": {
+						"fillKey": setColorByIndex(11),
+						"electoralVotes": 4,
+						"average":polarityAvgArr[11]
+					},
+					"IL": {
+						"fillKey": setColorByIndex(12),
+						"electoralVotes": 20, 
+						"average":polarityAvgArr[12]
+					},
+					"IN": {
+						"fillKey":setColorByIndex(13),
+						"electoralVotes": 11,
+						"average":polarityAvgArr[13]
+					},
+					"IA": {
+						"fillKey": setColorByIndex(14),
+						"electoralVotes": 6,
+						"average":polarityAvgArr[14]
+					},
+					"KS": {
+						"fillKey": setColorByIndex(15),
+						"electoralVotes": 6,
+						"average":polarityAvgArr[15]
+					},
+					"KY": {
+						"fillKey": setColorByIndex(16),
+						"electoralVotes": 8,
+						"average":polarityAvgArr[16]
+					},
+					"LA": {
+						"fillKey":setColorByIndex(17),
+						"electoralVotes": 8,
+						"average":polarityAvgArr[17]
+					},
+					"MD": {
+						"fillKey": setColorByIndex(19),
+						"electoralVotes": 10,
+						"average":polarityAvgArr[19]
+					},
+					"ME": {
+						"fillKey": setColorByIndex(18),
+						"electoralVotes": 4,
+						"average":polarityAvgArr[18]
+					},
+					"MA": {
+						"fillKey": setColorByIndex(20),
+						"electoralVotes": 11,
+						"average":polarityAvgArr[20]
+					},
+					"MN": {
+						"fillKey": setColorByIndex(22),
+						"electoralVotes": 10,
+						"average":polarityAvgArr[22]
+					},
+					"MI": {
+						"fillKey":setColorByIndex(21),
+						"electoralVotes": 16,
+						"average":polarityAvgArr[21]
+					},
+					"MS": {
+						"fillKey": setColorByIndex(23),
+						"electoralVotes": 6,
+						"average":polarityAvgArr[23]
+					},
+					"MO": {
+						"fillKey": setColorByIndex(24),
+						"electoralVotes": 10,
+						"average":polarityAvgArr[24]
+					},
+					"MT": {
+						"fillKey":setColorByIndex(25),
+						"electoralVotes": 3,
+						"average":polarityAvgArr[25]
+					},
+					"NC": {
+						"fillKey": setColorByIndex(32),
+						"electoralVotes": 15,
+						"average":polarityAvgArr[32]
+					},
+					"NE": {
+						"fillKey": setColorByIndex(26),
+						"electoralVotes": 5,
+						"average":polarityAvgArr[26]
+					},
+					"NV": {
+						"fillKey": setColorByIndex(27),
+						"electoralVotes": 6,
+						"average":polarityAvgArr[27]
+					},
+					"NH": {
+						"fillKey": setColorByIndex(28),
+						"electoralVotes": 4,
+						"average":polarityAvgArr[28]
+					},
+					"NJ": {
+						"fillKey": setColorByIndex(29),
+						"electoralVotes": 14,
+						"average":polarityAvgArr[29]
+					},
+					"NY": {
+						"fillKey": setColorByIndex(31),
+						"electoralVotes": 29,
+						"average":polarityAvgArr[31]
+					},
+					"ND": {
+						"fillKey": setColorByIndex(33),
+						"electoralVotes": 3,
+						"average":polarityAvgArr[33]
+					},
+					"NM": {
+						"fillKey": setColorByIndex(30),
+						"electoralVotes": 5,
+						"average":polarityAvgArr[30]
+					},
+					"OH": {
+						"fillKey":setColorByIndex(34),
+						"electoralVotes": 18,
+						"average":polarityAvgArr[34]
+					},
+					"OK": {
+						"fillKey": setColorByIndex(35),
+						"electoralVotes": 7,
+						"average":polarityAvgArr[35]
+					},
+					"OR": {
+						"fillKey":setColorByIndex(36),
+						"electoralVotes": 7,
+						"average":polarityAvgArr[36]
+					},
+					"PA": {
+						"fillKey": setColorByIndex(37),
+						"electoralVotes": 20,
+						"average":polarityAvgArr[37]
+					},
+					"RI": {
+						"fillKey": setColorByIndex(38),
+						"electoralVotes": 4,
+						"average":polarityAvgArr[38]
+					},
+					"SC": {
+						"fillKey": setColorByIndex(39),
+						"electoralVotes": 9,
+						"average":polarityAvgArr[39]
+					},
+					"SD": {
+						"fillKey": setColorByIndex(40),
+						"electoralVotes": 3,
+						"average":polarityAvgArr[40]
+					},
+					"TN": {
+						"fillKey": setColorByIndex(41),
+						"electoralVotes": 11,
+						"average":polarityAvgArr[41]
+					},
+					"TX": {
+						"fillKey": setColorByIndex(42),
+						"electoralVotes": 38,
+						"average":polarityAvgArr[42]
+					},
+					"UT": {
+						"fillKey": setColorByIndex(43),
+						"electoralVotes": 6,
+						"average":polarityAvgArr[43]
+					},
+					"WI": {
+						"fillKey": setColorByIndex(48),
+						"electoralVotes": 10,
+						"average":polarityAvgArr[48]
+					},
+					"VA": {
+						"fillKey": setColorByIndex(45),
+						"electoralVotes": 13,
+						"average":polarityAvgArr[45]
+					},
+					"VT": {
+						"fillKey": setColorByIndex(44),
+						"electoralVotes": 3,
+						"average":polarityAvgArr[44]
+					},
+					"WA": {
+						"fillKey": setColorByIndex(46),
+						"electoralVotes": 12,
+						"average":polarityAvgArr[46]
+					},
+					"WV": {
+						"fillKey": setColorByIndex(47),
+						"electoralVotes": 5,
+						"average":polarityAvgArr[47]
+					},
+					"WY": {
+						"fillKey": setColorByIndex(49),
+						"electoralVotes": 3,
+						"average":polarityAvgArr[49]
+					},
+					"CA": {
+						"fillKey": setColorByIndex(4),
+						"electoralVotes": 55,
+						"average":polarityAvgArr[4]
+					},
+					"CT": {
+						"fillKey": setColorByIndex(6),
+						"electoralVotes": 7,
+						"average":polarityAvgArr[6]
+					},
+					"AK": {
+						"fillKey": setColorByIndex(1),
+						"electoralVotes": 3,
+						"average":polarityAvgArr[1]
+					},
+					"AR": {
+						"fillKey": setColorByIndex(3),
+						"electoralVotes": 6,
+						"average":polarityAvgArr[3]
+					},
+					"AL": {
+						"fillKey": setColorByIndex(0),
+						"electoralVotes": 9,
+						"average":polarityAvgArr[0]
+					},
+					"DC": {
+						"fillKey": setColorByIndex(50),
+						"electoralVotes": 3,
+						"average":polarityAvgArr[50]
+					}
+				}
+			});
+			keywordMap1.labels({"fontSize": 15});
+		}
+
+		getData(localStorage.srcString);
+
+	}]);
 })();
