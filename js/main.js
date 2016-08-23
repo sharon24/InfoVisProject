@@ -60,6 +60,8 @@
 angular.module('selectedNumberOfClasses', [])
 app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 	var polarity,max,min;
+	
+
 	$scope.seed;
 	$scope.colorPickedByUser=0;
 	$scope.runColorTest=false;
@@ -83,7 +85,9 @@ app.controller('MainController',['$scope','$window','$http','Constants',function
 	var baseColor2=[166,97,26];
 	var opacityRange;
 
-
+if (typeof(localStorage.srcString) =="undefined"   ) {
+localStorage.srcString="Barack Obama";
+}
 
 if (localStorage.addedNewColor==="true") {
 	$scope.presetsColors.push({cBlindSupported:false,col1:[localStorage.R1,localStorage.G1,localStorage.B1],col2:[localStorage.R2,localStorage.G2,localStorage.B2]});
@@ -176,6 +180,7 @@ function $(selector) {
 function all(selector) {
 	return document.querySelectorAll(selector);
 }
+
 
 function checkName(data,searchString) {
 
@@ -270,9 +275,9 @@ function initializeArray() {
 	}
 	var itemsProcessed = 0;
 
-	function getData() {
+	function getData(srcString) {
 		var stateID;
-		var searchString="jon snow"
+		var searchString=srcString;
 		initializeArray();
 		console.log("start getting data");
 		for (j = 1; j <= 3; j++) {  //J<52
@@ -409,6 +414,10 @@ $scope.initDefaultColors =function()  {
 	sColor.className="colorPresetItem selected";
 }
 
+$scope.executeQuery =function(person) {
+localStorage.srcString=person;
+location.reload(); 
+}
 
 function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
 function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
@@ -467,9 +476,6 @@ if ($scope.runColorTest ===true) {
 	}
 }
 function DataMapInit () {
-
-
-
 	var keywordMap1 = new Datamap({
 		scope: 'usa',
 		element: document.getElementById("keywordMap1"),
@@ -746,7 +752,7 @@ keywordMap1.labels({"fontSize": 15});
 
 
 
-getData();
+getData(localStorage.srcString);
 
 
 }]);

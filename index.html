@@ -92,11 +92,13 @@
                <!-- ************************************************************************************************* -->
                <script>
                   $( function() {
-                      $( "#datepicker" ).datepicker();
+                       $( "#datepicker" ).datepicker();
                   } );
                </script>
                <div class="section">
-                  <p>Date: <input type="text" id="datepicker"></p>
+                  <p>Date:  <input type="text" id="datepicker"></p>
+                  <p>Person: <input ng-model="person" type="text" ></p>
+                  <button ng-click="executeQuery(person)" type="button">Check</button> 
                </div>
                <div class="section" id="colors">
                   <div id="optionss">
