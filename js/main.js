@@ -620,7 +620,10 @@ location.reload();
 
 					highlightFillColor: '#FC8D59',
 					popupTemplate: function(geography, data) {
-						return '<div class="hoverinfo" style="font-size10px;">' + geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity on date range1:' +data.average1+ '<br>' +'Average polarity on date range2:' +data.average2
+						return '<div class="hoverinfo" style="font-size10px;">' + geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity on date range1:' +data.average1+ 
+						'<br>' +'Average polarity on date range2:' + data.average2 +
+						'<br>' +'number of articals on  range 1:' + data.count1 +
+						'<br>' +'number of articals on  range 2:' + data.count2 
 					},
 					highlightBorderWidth: 3,
 				},
@@ -630,307 +633,409 @@ location.reload();
 						"fillKey": setColorByIndex(2),
 						"electoralVotes": 11,
 						"average1":range1PolarityAvg[2],
-						"average2":range2PolarityAvg[2]
+						"average2":range2PolarityAvg[2],
+						"count1":range1PolarityCount[2],
+						"count2":range2PolarityCount[2]
 					},
 					"CO": {
 						"fillKey": setColorByIndex(5),
 						"electoralVotes": 9,
 						"average1":range1PolarityAvg[5],
-						"average2":range2PolarityAvg[5]
+						"average2":range2PolarityAvg[5],
+						"count1":range1PolarityCount[5],
+						"count2":range2PolarityCount[5]
 					},
 					"DE": {
 						"fillKey": setColorByIndex(7),
 						"electoralVotes": 3,
 						"average1":range1PolarityAvg[7],
-						"average2":range2PolarityAvg[7]
+						"average2":range2PolarityAvg[7],
+						"count1":range1PolarityCount[7],
+						"count2":range2PolarityCount[7]
 					},
 					"FL": {
 						"fillKey": setColorByIndex(8),
 						"electoralVotes": 29,
 						"average1":range1PolarityAvg[8],
-						"average2":range2PolarityAvg[8]
+						"average2":range2PolarityAvg[8],
+						"count1":range1PolarityCount[8],
+						"count2":range2PolarityCount[8]
 					},
 					"GA": {
 						"fillKey": setColorByIndex(9),
 						"electoralVotes": 16,
 						"average1":range1PolarityAvg[9],
-						"average2":range2PolarityAvg[9]
+						"average2":range2PolarityAvg[9],
+						"count1":range1PolarityCount[9],
+						"count2":range2PolarityCount[9]
 					},
 					"HI": {
 						"fillKey": setColorByIndex(10),
 						"electoralVotes": 4,
 						"average1":range1PolarityAvg[10],
-						"average2":range2PolarityAvg[10]
+						"average2":range2PolarityAvg[10],
+						"count1":range1PolarityCount[10],
+						"count2":range2PolarityCount[10]
 					},
 					"ID": {
 						"fillKey": setColorByIndex(11),
 						"electoralVotes": 4,
 						"average1":range1PolarityAvg[11],
-						"average2":range2PolarityAvg[11]
+						"average2":range2PolarityAvg[11],
+						"count1":range1PolarityCount[11],
+						"count2":range2PolarityCount[11]
 					},
 					"IL": {
 						"fillKey": setColorByIndex(12),
 						"electoralVotes": 20, 
 						"average1":range1PolarityAvg[12],
-						"average2":range2PolarityAvg[12]
+						"average2":range2PolarityAvg[12],
+						"count1":range1PolarityCount[12],
+						"count2":range2PolarityCount[12]
 					},
 					"IN": {
 						"fillKey":setColorByIndex(13),
 						"electoralVotes": 11,
 						"average1":range1PolarityAvg[13],
-						"average2":range2PolarityAvg[13]
+						"average2":range2PolarityAvg[13],
+						"count1":range1PolarityCount[13],
+						"count2":range2PolarityCount[13]
 					},
 					"IA": {
 						"fillKey": setColorByIndex(14),
 						"electoralVotes": 6,
 						"average1":range1PolarityAvg[14],
-						"average2":range2PolarityAvg[14]
+						"average2":range2PolarityAvg[14],
+						"count1":range1PolarityCount[14],
+						"count2":range2PolarityCount[14]
 					},
 					"KS": {
 						"fillKey": setColorByIndex(15),
 						"electoralVotes": 6,
 						"average1":range1PolarityAvg[15],
-						"average2":range2PolarityAvg[15]
+						"average2":range2PolarityAvg[15],
+						"count1":range1PolarityCount[15],
+						"count2":range2PolarityCount[15]
 					},
 					"KY": {
 						"fillKey": setColorByIndex(16),
 						"electoralVotes": 8,
 						"average1":range1PolarityAvg[16],
-						"average2":range2PolarityAvg[16]
+						"average2":range2PolarityAvg[16],
+						"count1":range1PolarityCount[16],
+						"count2":range2PolarityCount[16]
 					},
 					"LA": {
 						"fillKey":setColorByIndex(17),
 						"electoralVotes": 8,
 						"average1":range1PolarityAvg[17],
-						"average2":range2PolarityAvg[17]
+						"average2":range2PolarityAvg[17],
+						"count1":range1PolarityCount[17],
+						"count2":range2PolarityCount[17]
 					},
 					"MD": {
 						"fillKey": setColorByIndex(19),
 						"electoralVotes": 10,
 						"average1":range1PolarityAvg[19],
-						"average2":range2PolarityAvg[19]
+						"average2":range2PolarityAvg[19],
+						"count1":range1PolarityCount[19],
+						"count2":range2PolarityCount[19]
 					},
 					"ME": {
 						"fillKey": setColorByIndex(18),
 						"electoralVotes": 4,
 						"average1":range1PolarityAvg[18],
-						"average2":range2PolarityAvg[18]
+						"average2":range2PolarityAvg[18],
+						"count1":range1PolarityCount[18],
+						"count2":range2PolarityCount[18]
 					},
 					"MA": {
 						"fillKey": setColorByIndex(20),
 						"electoralVotes": 11,
 						"average1":range1PolarityAvg[20],
-						"average2":range2PolarityAvg[20]
+						"average2":range2PolarityAvg[20],
+						"count1":range1PolarityCount[20],
+						"count2":range2PolarityCount[20]
 					},
 					"MN": {
 						"fillKey": setColorByIndex(22),
 						"electoralVotes": 10,
 						"average1":range1PolarityAvg[22],
-						"average2":range2PolarityAvg[22]
+						"average2":range2PolarityAvg[22],
+						"count1":range1PolarityCount[22],
+						"count2":range2PolarityCount[22]
 					},
 					"MI": {
 						"fillKey":setColorByIndex(21),
 						"electoralVotes": 16,
 						"average1":range1PolarityAvg[21],
-						"average2":range2PolarityAvg[21]
+						"average2":range2PolarityAvg[21],
+						"count1":range1PolarityCount[21],
+						"count2":range2PolarityCount[21]
 					},
 					"MS": {
 						"fillKey": setColorByIndex(23),
 						"electoralVotes": 6,
 						"average1":range1PolarityAvg[23],
-						"average2":range2PolarityAvg[23]
+						"average2":range2PolarityAvg[23],
+						"count1":range1PolarityCount[23],
+						"count2":range2PolarityCount[23]
 					},
 					"MO": {
 						"fillKey": setColorByIndex(24),
 						"electoralVotes": 10,
 						"average1":range1PolarityAvg[24],
-						"average2":range2PolarityAvg[24]
+						"average2":range2PolarityAvg[24],
+						"count1":range1PolarityCount[24],
+						"count2":range2PolarityCount[24]
 					},
 					"MT": {
 						"fillKey":setColorByIndex(25),
 						"electoralVotes": 3,
 						"average1":range1PolarityAvg[25],
-						"average2":range2PolarityAvg[25]
+						"average2":range2PolarityAvg[25],
+						"count1":range1PolarityCount[25],
+						"count2":range2PolarityCount[25]
 					},
 					"NC": {
 						"fillKey": setColorByIndex(32),
 						"electoralVotes": 15,
 						"average1":range1PolarityAvg[32],
-						"average2":range2PolarityAvg[32]
+						"average2":range2PolarityAvg[32],
+						"count1":range1PolarityCount[32],
+						"count2":range2PolarityCount[32]
 					},
 					"NE": {
 						"fillKey": setColorByIndex(26),
 						"electoralVotes": 5,
 						"average1":range1PolarityAvg[26],
-						"average2":range2PolarityAvg[26]
+						"average2":range2PolarityAvg[26],
+						"count1":range1PolarityCount[26],
+						"count2":range2PolarityCount[26]
 					},
 					"NV": {
 						"fillKey": setColorByIndex(27),
 						"electoralVotes": 6,
 						"average1":range1PolarityAvg[27],
-						"average2":range2PolarityAvg[27]
+						"average2":range2PolarityAvg[27],
+						"count1":range1PolarityCount[27],
+						"count2":range2PolarityCount[27]
 					},
 					"NH": {
 						"fillKey": setColorByIndex(28),
 						"electoralVotes": 4,
 						"average1":range1PolarityAvg[28],
-						"average2":range2PolarityAvg[28]
+						"average2":range2PolarityAvg[28],
+						"count1":range1PolarityCount[28],
+						"count2":range2PolarityCount[28]
 					},
 					"NJ": {
 						"fillKey": setColorByIndex(29),
 						"electoralVotes": 14,
 						"average1":range1PolarityAvg[29],
-						"average2":range2PolarityAvg[29]
+						"average2":range2PolarityAvg[29],
+						"count1":range1PolarityCount[29],
+						"count2":range2PolarityCount[29]
 					},
 					"NY": {
 						"fillKey": setColorByIndex(31),
 						"electoralVotes": 29,
 						"average1":range1PolarityAvg[31],
-						"average2":range2PolarityAvg[31]
+						"average2":range2PolarityAvg[31],
+						"count1":range1PolarityCount[31],
+						"count2":range2PolarityCount[31]
 					},
 					"ND": {
 						"fillKey": setColorByIndex(33),
 						"electoralVotes": 3,
 						"average1":range1PolarityAvg[33],
-						"average2":range2PolarityAvg[33]
+						"average2":range2PolarityAvg[33],
+						"count1":range1PolarityCount[33],
+						"count2":range2PolarityCount[33]
 					},
 					"NM": {
 						"fillKey": setColorByIndex(30),
 						"electoralVotes": 5,
 						"average1":range1PolarityAvg[30],
-						"average2":range2PolarityAvg[30]
+						"average2":range2PolarityAvg[30],
+						"count1":range1PolarityCount[30],
+						"count2":range2PolarityCount[30]
 					},
 					"OH": {
 						"fillKey":setColorByIndex(34),
 						"electoralVotes": 18,
 						"average1":range1PolarityAvg[34],
-						"average2":range2PolarityAvg[34]
+						"average2":range2PolarityAvg[34],
+						"count1":range1PolarityCount[34],
+						"count2":range2PolarityCount[34]
 					},
 					"OK": {
 						"fillKey": setColorByIndex(35),
 						"electoralVotes": 7,
 						"average1":range1PolarityAvg[35],
-						"average2":range2PolarityAvg[35]
+						"average2":range2PolarityAvg[35],
+						"count1":range1PolarityCount[35],
+						"count2":range2PolarityCount[35]
 					},
 					"OR": {
 						"fillKey":setColorByIndex(36),
 						"electoralVotes": 7,
 						"average1":range1PolarityAvg[36],
-						"average2":range2PolarityAvg[36]
+						"average2":range2PolarityAvg[36],
+						"count1":range1PolarityCount[36],
+						"count2":range2PolarityCount[36]
 					},
 					"PA": {
 						"fillKey": setColorByIndex(37),
 						"electoralVotes": 20,
 						"average1":range1PolarityAvg[37],
-						"average2":range2PolarityAvg[37]
+						"average2":range2PolarityAvg[37],
+						"count1":range1PolarityCount[37],
+						"count2":range2PolarityCount[37]
 					},
 					"RI": {
 						"fillKey": setColorByIndex(38),
 						"electoralVotes": 4,
 						"average1":range1PolarityAvg[38],
-						"average2":range2PolarityAvg[38]
+						"average2":range2PolarityAvg[38],
+						"count1":range1PolarityCount[38],
+						"count2":range2PolarityCount[38]
 					},
 					"SC": {
 						"fillKey": setColorByIndex(39),
 						"electoralVotes": 9,
 						"average1":range1PolarityAvg[39],
-						"average2":range2PolarityAvg[39]
+						"average2":range2PolarityAvg[39],
+						"count1":range1PolarityCount[39],
+						"count2":range2PolarityCount[39]
 					},
 					"SD": {
 						"fillKey": setColorByIndex(40),
 						"electoralVotes": 3,
 						"average1":range1PolarityAvg[40],
-						"average2":range2PolarityAvg[40]
+						"average2":range2PolarityAvg[40],
+						"count1":range1PolarityCount[40],
+						"count2":range2PolarityCount[40]
 					},
 					"TN": {
 						"fillKey": setColorByIndex(41),
 						"electoralVotes": 11,
 						"average1":range1PolarityAvg[41],
-						"average2":range2PolarityAvg[41]
+						"average2":range2PolarityAvg[41],
+						"count1":range1PolarityCount[41],
+						"count2":range2PolarityCount[41]
 					},
 					"TX": {
 						"fillKey": setColorByIndex(42),
 						"electoralVotes": 38,
 						"average1":range1PolarityAvg[42],
-						"average2":range2PolarityAvg[42]
+						"average2":range2PolarityAvg[42],
+						"count1":range1PolarityCount[42],
+						"count2":range2PolarityCount[42]
 					},
 					"UT": {
 						"fillKey": setColorByIndex(43),
 						"electoralVotes": 6,
 						"average1":range1PolarityAvg[43],
-						"average2":range2PolarityAvg[43]
+						"average2":range2PolarityAvg[43],
+						"count1":range1PolarityCount[43],
+						"count2":range2PolarityCount[43]
 					},
 					"WI": {
 						"fillKey": setColorByIndex(48),
 						"electoralVotes": 10,
 						"average1":range1PolarityAvg[48],
-						"average2":range2PolarityAvg[48]
+						"average2":range2PolarityAvg[48],
+						"count1":range1PolarityCount[48],
+						"count2":range2PolarityCount[48]
 					},
 					"VA": {
 						"fillKey": setColorByIndex(45),
 						"electoralVotes": 13,
 						"average1":range1PolarityAvg[45],
-						"average2":range2PolarityAvg[45]
+						"average2":range2PolarityAvg[45],
+						"count1":range1PolarityCount[45],
+						"count2":range2PolarityCount[45]
 					},
 					"VT": {
 						"fillKey": setColorByIndex(44),
 						"electoralVotes": 3,
 						"average1":range1PolarityAvg[44],
-						"average2":range2PolarityAvg[44]
+						"average2":range2PolarityAvg[44],
+						"count1":range1PolarityCount[44],
+						"count2":range2PolarityCount[44]
 					},
 					"WA": {
 						"fillKey": setColorByIndex(46),
 						"electoralVotes": 12,
 						"average1":range1PolarityAvg[46],
-						"average2":range2PolarityAvg[46]
+						"average2":range2PolarityAvg[46],
+						"count1":range1PolarityCount[46],
+						"count2":range2PolarityCount[46]
 					},
 					"WV": {
 						"fillKey": setColorByIndex(47),
 						"electoralVotes": 5,
 						"average1":range1PolarityAvg[47],
-						"average2":range2PolarityAvg[47]
+						"average2":range2PolarityAvg[47],
+						"count1":range1PolarityCount[47],
+						"count2":range2PolarityCount[47]
 					},
 					"WY": {
 						"fillKey": setColorByIndex(49),
 						"electoralVotes": 3,
 						"average1":range1PolarityAvg[49],
-						"average2":range2PolarityAvg[49]
+						"average2":range2PolarityAvg[49],
+						"count1":range1PolarityCount[49],
+						"count2":range2PolarityCount[49]
 					},
 					"CA": {
 						"fillKey": setColorByIndex(4),
 						"electoralVotes": 55,
 						"average1":range1PolarityAvg[4],
-						"average2":range2PolarityAvg[4]
+						"average2":range2PolarityAvg[4],
+						"count1":range1PolarityCount[4],
+						"count2":range2PolarityCount[4]
 					},
 					"CT": {
 						"fillKey": setColorByIndex(6),
 						"electoralVotes": 7,
 						"average1":range1PolarityAvg[6],
-						"average2":range2PolarityAvg[6]
+						"average2":range2PolarityAvg[6],
+						"count1":range1PolarityCount[6],
+						"count2":range2PolarityCount[6]
 					},
 					"AK": {
 						"fillKey": setColorByIndex(1),
 						"electoralVotes": 3,
 						"average1":range1PolarityAvg[1],
-						"average2":range2PolarityAvg[1]
+						"average2":range2PolarityAvg[1],
+						"count1":range1PolarityCount[1],
+						"count2":range2PolarityCount[1]
 					},
 					"AR": {
 						"fillKey": setColorByIndex(3),
 						"electoralVotes": 6,
 						"average1":range1PolarityAvg[3],
-						"average2":range2PolarityAvg[3]
+						"average2":range2PolarityAvg[3],
+						"count1":range1PolarityCount[3],
+						"count2":range2PolarityCount[3]
 					},
 					"AL": {
 						"fillKey": setColorByIndex(0),
 						"electoralVotes": 9,
 						"average1":range1PolarityAvg[0],
-						"average2":range2PolarityAvg[0]
+						"average2":range2PolarityAvg[0],
+						"count1":range1PolarityCount[0],
+						"count2":range2PolarityCount[0]
 					},
 					"DC": {
 						"fillKey": setColorByIndex(50),
 						"electoralVotes": 3,
 						"average1":range1PolarityAvg[50],
-						"average2":range2PolarityAvg[50]
+						"average2":range2PolarityAvg[50],
+						"count1":range1PolarityCount[50],
+						"count2":range2PolarityCount[50]
 					}
 				}
 			});
