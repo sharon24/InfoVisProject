@@ -85,6 +85,7 @@
 		var range2PolaritySum = [];
 		var range2PolarityCount = [];
 		var range2PolarityAvg = [];
+		 
 
 		var ColorScheme;
 
@@ -95,22 +96,25 @@
 		if (typeof(localStorage.srcString) == "undefined"   ) {
 			localStorage.srcString = "Barack Obama";
 		}
-
+		$scope.subject=localStorage.srcString;
 
 
 		if (typeof(localStorage.date1start) == "undefined"   ) {
 			localStorage.date1start = "01/17/2016";
 		}
+		$scope.date1start=localStorage.date1start;
 		if (typeof(localStorage.date1end) == "undefined"   ) {
 			localStorage.date1end = "02/19/2016";
 		}
-
+		$scope.date1end=localStorage.date1end;
 		if (typeof(localStorage.date2start) == "undefined"   ) {
 			localStorage.date2start = "02/20/2016";
 		}
+		$scope.date2start=localStorage.date2start;
 		if (typeof(localStorage.date2end) == "undefined"   ) {
 			localStorage.date2end = "06/01/2016";
 		}
+		$scope.date2end=localStorage.date2end;
 		
 		if (localStorage.addedNewColor === "true") {
 			$scope.presetsColors.push({cBlindSupported:false,col1:[localStorage.R1,localStorage.G1,localStorage.B1],col2:[localStorage.R2,localStorage.G2,localStorage.B2]});
@@ -596,9 +600,9 @@ location.reload();
 				} else {
 					if (range1PolarityAvg[index] <= ranges[i][1] &&range2PolarityAvg[index] <= ranges[j][1]) {
 						if ((i+j*$scope.numberOfRanges) === $scope.legendPickedByUser+1 || $scope.legendPickedByUser ===-1) {
-
-							return ("c" + (i+j*$scope.numberOfRanges));
+							return ("c" + (i+j*$scope.numberOfRanges+1));
 						} else {
+							alert(i+j*$scope.numberOfRanges);
 							return ("black");
 						}
 					}

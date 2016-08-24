@@ -101,8 +101,12 @@ textarea {
 
 .section {
     border-top: 1px solid #999;
-    padding: 5px 0;
-}
+    padding-top: 10px;
+    }
+
+ .subject {
+    text-align: center;
+ }   
 
 #map-container {
     margin-left: 264px;
