@@ -599,10 +599,10 @@ location.reload();
 					}
 				} else {
 					if (range1PolarityAvg[index] <= ranges[i][1] &&range2PolarityAvg[index] <= ranges[j][1]) {
-						if ((i+j*$scope.numberOfRanges) === $scope.legendPickedByUser+1 || $scope.legendPickedByUser ===-1) {
+						if ((i+j*$scope.numberOfRanges+1) === $scope.legendPickedByUser+1 || $scope.legendPickedByUser ===-1) {
 							return ("c" + (i+j*$scope.numberOfRanges+1));
 						} else {
-							alert(i+j*$scope.numberOfRanges);
+							
 							return ("black");
 						}
 					}
