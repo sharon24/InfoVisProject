@@ -347,9 +347,7 @@
 							var split1 = currDateStr.split("T");
 							var split2 = split1[0].split("-");
 							var currDate = new Date(split2[0],split2[1]-1,split2[2]);
-							//alert(localStorage.date1start);
-							//alert(currDate + "currdate " );
-							//alert( "localStorage"+ new Date(localStorage.date1start));
+					
 
 							if ((currDate >= new Date(localStorage.date1start)) && (currDate <= new Date(localStorage.date1end))) {
 								polarity1 = data[i].polarity;
@@ -618,7 +616,7 @@ location.reload();
 
 					highlightFillColor: '#FC8D59',
 					popupTemplate: function(geography, data) {
-						return '<div class="hoverinfo" style="font-size:40px;">' + geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity on date range1:' +data.average1+ '<br>' +'Average polarity on date range2:' +data.average2
+						return '<div class="hoverinfo" style="font-size10px;">' + geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity on date range1:' +data.average1+ '<br>' +'Average polarity on date range2:' +data.average2
 					},
 					highlightBorderWidth: 3,
 				},
