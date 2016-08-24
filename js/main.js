@@ -65,7 +65,6 @@
 		$scope.seed;
 		$scope.colorPickedByUser = 0;
 		$scope.runColorTest = false;
-		$scope.legendPickedByUser = -1;
 		$scope.numberOfRanges = 3;
 		$scope.numberOfPresetsColor = 9;
 		$scope.presetsColors = [{cBlindSupported:true,col1:[1,133,113],col2:[166,97,26]},{cBlindSupported:true,col1:[200,28,139],col2:[77,172,38]},{cBlindSupported:true,col1:[123,50,148],col2:[0,136,55]},
@@ -138,7 +137,6 @@
 
 		$scope.updateNumberOfClasses = function(selected) {
 			$scope.numberOfRanges = Math.sqrt(selected);
-			$scope.legendPickedByUser=-1;
 			callback();
 		}
 
