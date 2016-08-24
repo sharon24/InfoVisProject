@@ -122,32 +122,18 @@
 		}
 
 		$scope.legendPicked = function(index) { 
-			if (index ==$scope.legendPickedByUser) {
-				$scope.legendPickedByUser = -1;
-				sColor=$(".legened-item.selected");
-				if (sColor != null) {
-					sColor.className = "legened-item";
-				}
+			sColors = all(".legened-item");
+			if (sColors[index].className.includes("selected")) {
+				sColors[index].className = "legened-item";
+			} else  {
+				sColors[index].className = "legened-item selected";
+			}
+
 				var element = document.getElementById("keywordMap1");
-					element.parentNode.removeChild(element);
+				element.parentNode.removeChild(element);
 				element=document.getElementById("map-container");
 				element.innerHTML= "<div id=\"keywordMap1\" ></div>";
 				DataMapInit();
-			} else {
-				$scope.legendPickedByUser = index;
-				var element = document.getElementById("keywordMap1");
-				element.parentNode.removeChild(element);
-				element = document.getElementById("map-container");
-				element.innerHTML = "<div id=\"keywordMap1\" ></div>";
-				DataMapInit();
-
-				sColor=$(".legened-item.selected");
-				if (sColor != null) {
-					sColor.className = "legened-item";
-				}
-				sColors = all(".legened-item");
-				sColors[index].className = "legened-item selected";
-			}
 		}
 
 		$scope.updateNumberOfClasses = function(selected) {
@@ -168,8 +154,12 @@
 		}
 
 		$scope.colorPicked = function(index) {
-			$scope.legendPickedByUser = -1;
 			$scope.colorPickedByUser = index;
+
+			sColorsLegend = all(".legened-item");
+			for (i=0;i<sColorsLegend.length;i++) {
+				sColorsLegend[i].className="legened-item";
+			}
 
 			var cIndex = index;
 			for (var j=0; j<$scope.numberOfRanges; j++) {
@@ -588,18 +578,22 @@ location.reload();
 
 		function setColorByIndex(index) {
 			var index;
+
+			sColors = all(".legened-item");
+			isSelcted = $(".legened-item.selected");
+
 			for (i=0;i<$scope.numberOfRanges;i++) {
 				for  (j=0;j<$scope.numberOfRanges;j++) {
 				if ($scope.runColorTest === true) {
 					index = (($scope.seed + index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
-					if (index  === $scope.legendPickedByUser+1 || $scope.legendPickedByUser === -1) {
+					if (sColors[index-1].className.includes("selected")   ||  isSelcted==null) {
 						return ("c" + (index));
 					} else {
 						return ("black");
 					}
 				} else {
 					if (range1PolarityAvg[index] <= ranges[i][1] &&range2PolarityAvg[index] <= ranges[j][1]) {
-						if ((i+j*$scope.numberOfRanges+1) === $scope.legendPickedByUser+1 || $scope.legendPickedByUser ===-1) {
+						if (sColors[i+j*$scope.numberOfRanges].className.includes("selected")  ||  isSelcted==null ) {
 							return ("c" + (i+j*$scope.numberOfRanges+1));
 						} else {
 							
