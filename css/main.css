@@ -107,14 +107,18 @@ textarea {
  .subject {
     text-align: center;
  }   
-
+.border{
+    margin-left: 300px;
+    padding-left: 10px;
+    border: 1px solid #999;
+}
 #map-container {
     margin-left: 264px;
     position: relative;
     height: 900px;
     border: 1px solid #999;
     overflow: hidden;
-    margin-top: 10px;
+    
 }
 #keywordMap1 {
     margin:10px;
@@ -135,18 +139,7 @@ textarea {
     z-index: 999;
 }
 
-#right {
-    width: 200px;
-    height: 900px;
-    float: right;
-    border-right: 1px solid #999;
-    border-bottom: 1px solid #999;
-    overflow: hidden;
-    background-color: #fff;
-    position: relative;
-    z-index: 999;
-    display: inline-block;
-}
+
 #cont {
     float: right;
     position: relative;
