@@ -147,9 +147,11 @@
                            <div class="section">
                              <h1 class="subject" ng-bind="subject"> </h1>
 
-                  <p>date range 1: <span ng-bind="date1start"></span>  -  <span ng-bind="date1end"></span></p>
-                  <p>date range 2: <span ng-bind="date2start"></span>  -  <span ng-bind="date2end"></span></p>
+                  <p>date range 1: {{date1start| date :  "dd/MM/yyyy"}}  - {{date1end| date :  "dd/MM/yyyy"}} </p>
+                  <p>date range 2: {{date2start| date :  "dd/MM/yyyy"}}  - {{date2end| date :  "dd/MM/yyyy"}}</p>
                   
+
+
                </div>
             <div id="map-container">
                <div id="keywordMap1"></div>

@@ -100,21 +100,21 @@
 
 
 		if (typeof(localStorage.date1start) == "undefined"   ) {
-			localStorage.date1start = "01/17/2016";
+			localStorage.date1start = new Date ("01/17/2016");
 		}
-		$scope.date1start=localStorage.date1start;
+		$scope.date1start=new Date(localStorage.date1start);
 		if (typeof(localStorage.date1end) == "undefined"   ) {
-			localStorage.date1end = "02/19/2016";
+			localStorage.date1end = new Date ("02/19/2016");
 		}
-		$scope.date1end=localStorage.date1end;
+		$scope.date1end=new Date(localStorage.date1end);
 		if (typeof(localStorage.date2start) == "undefined"   ) {
-			localStorage.date2start = "02/20/2016";
+			localStorage.date2start = new Date ("02/20/2016");
 		}
-		$scope.date2start=localStorage.date2start;
+		$scope.date2start=new Date(localStorage.date2start);
 		if (typeof(localStorage.date2end) == "undefined"   ) {
-			localStorage.date2end = "06/01/2016";
+			localStorage.date2end = new Date ("06/01/2016");
 		}
-		$scope.date2end=localStorage.date2end;
+		$scope.date2end=new Date(localStorage.date2end);
 		
 		if (localStorage.addedNewColor === "true") {
 			$scope.presetsColors.push({cBlindSupported:false,col1:[localStorage.R1,localStorage.G1,localStorage.B1],col2:[localStorage.R2,localStorage.G2,localStorage.B2]});
@@ -401,10 +401,10 @@
 			var date2end = new Date(range2end[2],range2end[0]-1,range2end[1]);
 
 
-localStorage.date1start=date1start;
-localStorage.date2start=date2start;
-localStorage.date1end=date1end;
-localStorage.date2end=date2end;
+localStorage.date1start=new Date (date1start);
+localStorage.date2start=new Date (date2start);
+localStorage.date1end=new Date (date1end);
+localStorage.date2end=new Date (date2end);
 location.reload(); 
 
 
