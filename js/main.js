@@ -92,27 +92,31 @@
 		var baseColor2 = [166,97,26];
 		var opacityRange;
 
-		if (typeof(localStorage.srcString) == "undefined"   ) {
+		if (localStorage.srcString === "undefined"   ) {
 			localStorage.srcString = "Barack Obama";
+			
 		}
 		$scope.subject=localStorage.srcString;
 
 
-		if (typeof(localStorage.date1start) == "undefined"   ) {
-			localStorage.date1start = new Date ("01/17/2016");
+		if (localStorage.date1start === "undefined" || localStorage.date1start === "Invalid Date"    ) {
+			localStorage.date1start = new Date ("01/01/2016");
 		}
 		$scope.date1start=new Date(localStorage.date1start);
-		if (typeof(localStorage.date1end) == "undefined"   ) {
-			localStorage.date1end = new Date ("02/19/2016");
+
+		if ( localStorage.date1end === "undefined" || localStorage.date1end === "Invalid Date"   ) {
+			localStorage.date1end = new Date ("02/22/2016");
 		}
 		$scope.date1end=new Date(localStorage.date1end);
-		if (typeof(localStorage.date2start) == "undefined"   ) {
-			localStorage.date2start = new Date ("02/20/2016");
+		if ( localStorage.date2start === "undefined"  || localStorage.date2start === "Invalid Date"  ) {
+			localStorage.date2start = new Date ("02/23/2016");
 		}
 		$scope.date2start=new Date(localStorage.date2start);
-		if (typeof(localStorage.date2end) == "undefined"   ) {
-			localStorage.date2end = new Date ("06/01/2016");
+		if ( localStorage.date2end === "undefined" || localStorage.date2end === "Invalid Date"  ) {
+			localStorage.date2end = new Date ("08/24/2016");
 		}
+
+	
 		$scope.date2end=new Date(localStorage.date2end);
 		
 		if (localStorage.addedNewColor === "true") {
@@ -197,6 +201,12 @@
 		}
 		
 		function checkName(data,searchString) {
+
+
+if (searchString.trim().length ==0) {
+	return true;
+}
+			
 			if (typeof(data['emm:entity']) != "undefined" ) {
 				if (typeof(data['emm:entity'][0]) != "undefined" ) {	
 					for (g=0;g<data['emm:entity'].length;g++) {
