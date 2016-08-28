@@ -85,6 +85,8 @@
 		var range2PolaritySum = [];
 		var range2PolarityCount = [];
 		var range2PolarityAvg = [];
+		$scope.numberInEachRange=[];
+
 		 
 
 		var ColorScheme;
@@ -563,16 +565,20 @@ location.reload();
 				if ($scope.runColorTest === true) {
 					index = (($scope.seed + index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
 					if (sColors[index-1].className.includes("selected")   ||  isSelcted==null) { 
+						$scope.numberInEachRange[(index-1)]++;
 						return ("c" + (index));
 					} else {
+						$scope.numberInEachRange[(index-1)]++;
 						return ("black");
 					}
 				} else {
 					if (range1PolarityAvg[index] <= ranges[j][1] &&range2PolarityAvg[index] <= ranges[i][1]) {
 						if (sColors[i+j*$scope.numberOfRanges].className.includes("selected")  ||  isSelcted==null ) {
+							$scope.numberInEachRange[(i+j*$scope.numberOfRanges)]++;
+								//alert($scope.numberInEachRange[(i+j*$scope.numberOfRanges]);
 							return ("c" + (i+j*$scope.numberOfRanges+1));
 						} else {
-							
+							$scope.numberInEachRange[(i+j*$scope.numberOfRanges)]++;
 							return ("black");
 						}
 					}
@@ -582,6 +588,10 @@ location.reload();
 		}
 
 		function DataMapInit () {
+
+			for (i=0;i<16;i++) {
+				$scope.numberInEachRange[i]=0;
+			}
 			var keywordMap1 = new Datamap({
 				scope: 'usa',
 				element: document.getElementById("keywordMap1"),
@@ -590,10 +600,10 @@ location.reload();
 
 					highlightFillColor: '#FC8D59',
 					popupTemplate: function(geography, data) {
-						return '<div class="hoverinfo" style="font-size10px;">' + geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity on date range1:' +data.average1+ 
-						'<br>' +'Average polarity on date range2:' + data.average2 +
-						'<br>' +'number of articals on  range 1:' + data.count1 +
-						'<br>' +'number of articals on  range 2:' + data.count2 
+						return '<div class="hoverinfo" style="font-size10px;">' + geography.properties.name +'<br>' +' Electoral Votes:' +  data.electoralVotes + '<br>' +'Average polarity period1:' +data.average1+ 
+						'<br>' +'Average polarity period2:' + data.average2 +
+						'<br>' +'number of articles on range 1:' + data.count1 +
+						'<br>' +'number of articles on range 2:' + data.count2 
 					},
 					highlightBorderWidth: 3,
 				},
