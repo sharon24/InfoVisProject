@@ -178,6 +178,10 @@
 			element = document.getElementById("map-container");
 			element.innerHTML = "<div id=\"keywordMap1\" ></div>";
 			DataMapInit();
+			 element = document.getElementById("loader");
+			 if (element != null ) {
+			element.parentNode.removeChild(element);
+				}
 
 			sColor=$(".colorPresetItem.selected");
 			if (sColor != null) {
@@ -335,11 +339,8 @@ if (searchString.trim().length ==0) {
 			var stateID;
 			var searchString = srcString;
 			InitializeRangeArray();
-		//	initializeArray();
-	//	alert(srcString);
-	//	alert(" "+ localStorage.date1start + " " + localStorage.date1end + " "+ localStorage.date2start + " "+  localStorage.date2end);
 			console.log("start getting data");
-			for (j = 1; j <= 4; j++) {  //J<52
+			for (j = 1; j <= 50; j++) {  //J<52
 				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
 					for (i = 0; i < data.length; i++) {
 						polarity = data[i].polarity;
@@ -364,17 +365,10 @@ if (searchString.trim().length ==0) {
 								range2PolaritySum[StateID] += polarity2;
 								range2PolarityCount[StateID]++;
 							}
-
-
-
-
-					//	StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
-						//	polaritySumArr[StateID] += polarity;
-						//	polarityCountArr[StateID]++;
 						}
 					}
 					itemsProcessed++;
-					if (itemsProcessed === 4) {
+					if (itemsProcessed ===50) {
 						callback();
 					}
 				});
@@ -405,41 +399,6 @@ localStorage.date1end=new Date (date1end);
 localStorage.date2end=new Date (date2end);
 location.reload(); 
 
-
-			// InitializeRangeArray();
-			// console.log("start getting range data");
-			// for (j = 1; j <= 3; j++) {  //J<52
-			// 	$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
-			// 		for (i = 0; i < data.length; i++) {
-			// 			if (typeof(data[i]['georss:point']) != "undefined") {
-			// 				var currDateStr = data[i]['dc:date'];
-			// 				var split1 = currDateStr.split("T");
-			// 				var split2 = split1[0].split("-");
-			// 				var currDate = new Date(split2[0],split2[1]-1,split2[2]);
-
-			// 				if ((currDate >= date1start) && (currDate <= date1end)) {
-			// 					polarity1 = data[i].polarity;
-			// 					StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
-			// 					range1PolaritySum[StateID] += polarity1;
-			// 					range1PolarityCount[StateID]++;
-			// 				}
-
-			// 				if ((currDate >= date2start) && (currDate <= date2end)) {
-			// 					polarity2 = data[i].polarity;
-			// 					StateID = Constants.State.filter(function (items) { return items.ShortName === data[i].stateCode; })[0].Id;
-			// 					range2PolaritySum[StateID] += polarity2;
-			// 					range2PolarityCount[StateID]++;
-			// 				}
-			// 			}
-			// 		}
-			// 		itemsProcessed++;
-			// 		if (itemsProcessed === 3) {
-			// 			callback();
-			// 		}
-			// 	});
-			// }
-			// console.log("range data recieved");
-			// calcRangeAvg();
 		}
 
 		function printRanges() {
@@ -593,7 +552,7 @@ location.reload();
 		}
 
 		function setColorByIndex(index) {
-			var index;
+							console.log(index);
 
 			sColors = all(".legened-item");
 			isSelcted = $(".legened-item.selected");
@@ -603,6 +562,9 @@ location.reload();
 				if ($scope.runColorTest === true) {
 					index = (($scope.seed + index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
 					if (sColors[index-1].className.includes("selected")   ||  isSelcted==null) {
+													if (index===43) {
+								console.log("c" + (i+j*$scope.numberOfRanges+1));
+							}	 
 						return ("c" + (index));
 					} else {
 						return ("black");
@@ -610,6 +572,9 @@ location.reload();
 				} else {
 					if (range1PolarityAvg[index] <= ranges[j][1] &&range2PolarityAvg[index] <= ranges[i][1]) {
 						if (sColors[i+j*$scope.numberOfRanges].className.includes("selected")  ||  isSelcted==null ) {
+							if (index===43) {
+								console.log("c" + (i+j*$scope.numberOfRanges+1));
+							}
 							return ("c" + (i+j*$scope.numberOfRanges+1));
 						} else {
 							

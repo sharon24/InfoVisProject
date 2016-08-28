@@ -77,8 +77,8 @@
                </div>
                <div class="section">
                   <a class="learn-more" href="#" data-toggle="tooltip" title="choose your own colors, customized colors are kept on local storage so you may use them again."></a>
-                  Color#1: <input ng-model="color1" class="jscolor" value="ab2567">
-                  Color#2: <input ng-model="color2" class="jscolor" value="ab2567">
+                  Color1: <input ng-model="color1" class="jscolor" value="ab2567">
+                  Color2: <input ng-model="color2" class="jscolor" value="ab2567">
                   <button ng-click="addNewColor(color1,color2)" type="button">Save</button> 
                </div>
                <!-- ************************************************************************************************* -->
@@ -103,13 +103,13 @@
                   });
                </script>
                <div class="section">
-                  <p>1st date range:</p>
+                  <p>period 1:</p>
                   <p><input type="text" id="startdatepicker1"></p>
                   <p><input type="text" id="enddatepicker1"></p>
-                  <p>2nd date range:</p>
+                  <p>period 2:</p>
                   <p><input type="text" id="startdatepicker2"></p>
                   <p><input type="text" id="enddatepicker2"></p>
-                  <button ng-click="filterData()">Calculate Range Differences</button>
+                  <button ng-click="filterData()">Check</button>
                </div>
                <div class="section">
                   <p>Person: <input ng-model="person" type="text" ></p>
@@ -147,13 +147,14 @@
                            <div class="section border">
                              <h1 class="subject" ng-bind="subject"> </h1>
 
-                  <p>date range 1: {{date1start| date :  "dd/MM/yyyy"}}  - {{date1end| date :  "dd/MM/yyyy"}} </p>
-                  <p>date range 2: {{date2start| date :  "dd/MM/yyyy"}}  - {{date2end| date :  "dd/MM/yyyy"}}</p>
+                  <p>period  1: {{date1start| date :  "dd/MM/yyyy"}}  - {{date1end| date :  "dd/MM/yyyy"}} </p>
+                  <p>period  2: {{date2start| date :  "dd/MM/yyyy"}}  - {{date2end| date :  "dd/MM/yyyy"}}</p>
                   
 
 
                </div>
             <div id="map-container">
+                <div id="loader" class="loader"></div>
                <div id="keywordMap1"></div>
             </div>
          </div>
