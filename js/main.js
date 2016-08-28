@@ -71,8 +71,8 @@
 		{cBlindSupported:true,col1:[230,97,1],col2:[94,60,153]},{cBlindSupported:true,col1:[202,0,32],col2:[5,113,176]},{cBlindSupported:false,col1:[202,0,32],col2:[64,64,64]}
 		,{cBlindSupported:true,col1:[215,25,28],col2:[44,123,182]} ,{cBlindSupported:false,col1:[215,25,28],col2:[26,150,65]}
 		,{cBlindSupported:false,col1:[215,25,28],col2:[43,131,186]}];
-		const minOpacity = 0.20;
-		const maxOpacity = 0.80;
+		const minOpacity = 0.10;
+		const maxOpacity = 0.50;
 		var range;
 		$scope.ranges = [];
 		var ranges =[]
