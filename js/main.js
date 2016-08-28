@@ -74,7 +74,8 @@
 		const minOpacity = 0.20;
 		const maxOpacity = 0.80;
 		var range;
-		var ranges = [];
+		$scope.ranges = [];
+		var ranges =[]
 		var polaritySumArr = [];
 		var polarityCountArr = [];
 		var polarityAvgArr = [];
@@ -313,7 +314,6 @@ if (searchString.trim().length ==0) {
 						max2 = range2PolarityAvg[i];
 					}
 				}
-				//console.log("polarityAvgArr["+i+"]:" + polarityAvgArr[i]);
 			}
 			console.log("calculated range avgs");
 			
@@ -471,8 +471,16 @@ location.reload();
 
 			var numOfRanges=$scope.numberOfRanges;
 			for (i = 0; i < numOfRanges; i++) {
-				console.log("range ",i+1,":",min+i*range/numOfRanges,"-",min+(i+1)*range/numOfRanges,"\n");
-				ranges[i]=[min+i*range/numOfRanges,min+(i+1)*range/numOfRanges];
+				//console.log("range ",i+1,":",min+i*range/numOfRanges,"-",min+(i+1)*range/numOfRanges,"\n");
+				//ranges[i]=(min+i*range/numOfRanges,min+(i+1)*range/numOfRanges);
+				ranges[i]=[];
+				ranges[i][0]=min+i*range/numOfRanges;
+				ranges[i][1]=min+(i+1)*range/numOfRanges;
+				console.log("range "+(i+1) +":" +ranges[i][0] +"-"+ranges[i][1]);
+
+				$scope.ranges[i]=[];
+				$scope.ranges[i][0] =(parseFloat(ranges[i][0])).toFixed(2);
+				$scope.ranges[i][1] =(parseFloat(ranges[i][1])).toFixed(2);
 			}
 		}
 
@@ -600,7 +608,7 @@ location.reload();
 						return ("black");
 					}
 				} else {
-					if (range1PolarityAvg[index] <= ranges[i][1] &&range2PolarityAvg[index] <= ranges[j][1]) {
+					if (range1PolarityAvg[index] <= ranges[j][1] &&range2PolarityAvg[index] <= ranges[i][1]) {
 						if (sColors[i+j*$scope.numberOfRanges].className.includes("selected")  ||  isSelcted==null ) {
 							return ("c" + (i+j*$scope.numberOfRanges+1));
 						} else {
