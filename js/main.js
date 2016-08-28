@@ -340,7 +340,7 @@ if (searchString.trim().length ==0) {
 			var searchString = srcString;
 			InitializeRangeArray();
 			console.log("start getting data");
-			for (j = 1; j <= 50; j++) {  //J<52
+			for (j = 1; j <= 30; j++) {  //J<52
 				$http.get('data/newsItemsparts/part' + j + '.json').success(function(data) {
 					for (i = 0; i < data.length; i++) {
 						polarity = data[i].polarity;
@@ -368,7 +368,7 @@ if (searchString.trim().length ==0) {
 						}
 					}
 					itemsProcessed++;
-					if (itemsProcessed ===50) {
+					if (itemsProcessed ===30) {
 						callback();
 					}
 				});
@@ -552,8 +552,6 @@ location.reload();
 		}
 
 		function setColorByIndex(index) {
-							console.log(index);
-
 			sColors = all(".legened-item");
 			isSelcted = $(".legened-item.selected");
 
@@ -561,10 +559,7 @@ location.reload();
 				for  (j=0;j<$scope.numberOfRanges;j++) {
 				if ($scope.runColorTest === true) {
 					index = (($scope.seed + index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
-					if (sColors[index-1].className.includes("selected")   ||  isSelcted==null) {
-													if (index===43) {
-								console.log("c" + (i+j*$scope.numberOfRanges+1));
-							}	 
+					if (sColors[index-1].className.includes("selected")   ||  isSelcted==null) { 
 						return ("c" + (index));
 					} else {
 						return ("black");
@@ -572,9 +567,6 @@ location.reload();
 				} else {
 					if (range1PolarityAvg[index] <= ranges[j][1] &&range2PolarityAvg[index] <= ranges[i][1]) {
 						if (sColors[i+j*$scope.numberOfRanges].className.includes("selected")  ||  isSelcted==null ) {
-							if (index===43) {
-								console.log("c" + (i+j*$scope.numberOfRanges+1));
-							}
 							return ("c" + (i+j*$scope.numberOfRanges+1));
 						} else {
 							
