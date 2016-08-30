@@ -120,8 +120,9 @@
                      <div class="section" id="legend">
 						      <a class="learn-more"  href="#" data-toggle="tooltip" title="you may choose any of the colors ,in order to black the others out."></a>
                         <p>Map Legend:</p>
+                        <br>
                         <div ng-repeat="row in colorRanges[colorPickedByUser]">
-                           <div ng-repeat="rect in row ">
+                           <div ng-repeat="rect in row " ng-model="numberInEachRange">
                               <div class="legened-item" ng-click='legendPicked($index+$parent.$index*row.length)'>
 									      <svg ng-attr-width="{{15}}" ng-attr-height="{{15}}">
             								<rect  
@@ -132,9 +133,8 @@
                                  </svg>
                               </div>
                               X:{{ranges[$parent.$index][0] }}-{{ranges[$parent.$index][1] }} Y:{{ranges[$index][0] }}-{{ranges[$index][1] }} 
-                              <br>
-                              number:<span ng-bind="numberInEachRange[($parent.$index*numberOfRanges +$index)]"></span>
-                            
+                              
+                              (quantity:{{numberInEachRange[($parent.$index*numberOfRanges +$index)]}})
                            </div>
                         </div>
                      </div>

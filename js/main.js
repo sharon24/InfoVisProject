@@ -86,8 +86,9 @@
 		var range2PolarityCount = [];
 		var range2PolarityAvg = [];
 		$scope.numberInEachRange=[];
+		$scope.firstname = "John";
 
-		 
+	 
 
 		var ColorScheme;
 
@@ -111,7 +112,7 @@
 		$scope.date1start=new Date(localStorage.date1start);
 
 		if ( typeof(localStorage.date1end) === "undefined" || localStorage.date1end === "Invalid Date"   ) {
-			localStorage.date1end = new Date ("03/30/2016");
+			localStorage.date1end = new Date ("03/31/2016");
 		}
 		$scope.date1end=new Date(localStorage.date1end);
 		if ( typeof(localStorage.date2start) === "undefined"  || localStorage.date2start === "Invalid Date"  ) {
@@ -262,33 +263,6 @@ if (searchString.trim().length ==0) {
 		}
 
 		//calculate average polarity of each state
-		function calcAvg() {
-			var polaritySum;
-			var polarityCount;
-
-			for (i = 0; i<=51; i++) {
-				polaritySum = polaritySumArr[i];
-				polarityCount = polarityCountArr[i];
-				if (polarityCount != 0) {
-					polarityAvgArr[i] = polaritySum/polarityCount;
-				}
-				if (i == 0) {
-					min = polarityAvgArr[i];
-					max = polarityAvgArr[i];
-				} else {
-					if (polarityAvgArr[i] < min) {
-						min = polarityAvgArr[i];
-					}
-					if (polarityAvgArr[i] > max) {
-						max = polarityAvgArr[i];
-					}
-
-				}
-				console.log("polarityAvgArr["+i+"]:" + polarityAvgArr[i]);
-			}
-			console.log("calculated avgs");
-		}
-
 		function calcRangeAvg() {
 			var polarity1Sum,polarity2Sum;
 			var polarity1Count,polarity2Count;
@@ -332,10 +306,33 @@ if (searchString.trim().length ==0) {
 			console.log('all done');
 			printRanges();
 			setColorScheme();
+			countInEachRange();
 			angular.element(document).ready(function() {
     			$scope.colorPicked(0);
 			});
-			//});
+			
+		}
+
+		function countInEachRange() {
+
+
+			for (i=0;i<16;i++) {
+				$scope.numberInEachRange[i]=0;
+			}	
+
+
+			for (i = 0; i<=51; i++) {
+
+				for (k=0;k<$scope.numberOfRanges;k++) {
+					for  (j=0;j<$scope.numberOfRanges;j++) {
+						if (range1PolarityAvg[i] <= ranges[j][1] &&range2PolarityAvg[i] <= ranges[k][1]) {
+							$scope.numberInEachRange[(k+j*$scope.numberOfRanges)]++;
+							j=$scope.numberOfRanges;
+							k=$scope.numberOfRanges;
+						}
+					}
+				}
+			}
 		}
 
 		var itemsProcessed = 0;
@@ -435,8 +432,6 @@ location.reload();
 
 			var numOfRanges=$scope.numberOfRanges;
 			for (i = 0; i < numOfRanges; i++) {
-				//console.log("range ",i+1,":",min+i*range/numOfRanges,"-",min+(i+1)*range/numOfRanges,"\n");
-				//ranges[i]=(min+i*range/numOfRanges,min+(i+1)*range/numOfRanges);
 				ranges[i]=[];
 				ranges[i][0]=min+i*range/numOfRanges;
 				ranges[i][1]=min+(i+1)*range/numOfRanges;
@@ -544,15 +539,12 @@ location.reload();
 			B2 = hexToB(col2);
 
 			localStorage.addedNewColor = true;
-			//$scope.presetsColors.push({cBlindSupported:false,col1:[R1,G1,B1],col2:[R2,G2,B2]})
 			localStorage.R1 = R1;
 			localStorage.G1 = G1;
 			localStorage.B1 = B1;
 			localStorage.R2 = R2;
 			localStorage.G2 = G2;
 			localStorage.B2 = B2;
-			//localStorage.presetsColors=$scope.presetsColors;
-			//localStorage.numberOfPresetsColor=$scope.numberOfPresetsColor;
 			location.reload();
 		}
 
@@ -565,20 +557,15 @@ location.reload();
 				if ($scope.runColorTest === true) {
 					index = (($scope.seed + index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
 					if (sColors[index-1].className.includes("selected")   ||  isSelcted==null) { 
-						$scope.numberInEachRange[(index-1)]++;
 						return ("c" + (index));
 					} else {
-						$scope.numberInEachRange[(index-1)]++;
 						return ("black");
 					}
 				} else {
 					if (range1PolarityAvg[index] <= ranges[j][1] &&range2PolarityAvg[index] <= ranges[i][1]) {
 						if (sColors[i+j*$scope.numberOfRanges].className.includes("selected")  ||  isSelcted==null ) {
-							$scope.numberInEachRange[(i+j*$scope.numberOfRanges)]++;
-								//alert($scope.numberInEachRange[(i+j*$scope.numberOfRanges]);
 							return ("c" + (i+j*$scope.numberOfRanges+1));
 						} else {
-							$scope.numberInEachRange[(i+j*$scope.numberOfRanges)]++;
 							return ("black");
 						}
 					}
@@ -589,9 +576,6 @@ location.reload();
 
 		function DataMapInit () {
 
-			for (i=0;i<16;i++) {
-				$scope.numberInEachRange[i]=0;
-			}
 			var keywordMap1 = new Datamap({
 				scope: 'usa',
 				element: document.getElementById("keywordMap1"),
