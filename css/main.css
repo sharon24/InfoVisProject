@@ -94,7 +94,7 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-   #wrapper {
+#wrapper {
     height: 660px;
     position: relative;
 }
@@ -102,24 +102,31 @@ textarea {
 .section {
     border-top: 1px solid #999;
     padding-top: 10px;
-    }
+}
 
- .subject {
+.subject {
     text-align: center;
- }   
-.border{
+}
+
+.dateheader {
+    text-align: center;
+}
+
+.border {
     margin-left: 300px;
     padding-left: 10px;
     border: 1px solid #999;
 }
+
 #map-container {
     margin-left: 264px;
     position: relative;
-    height:1100px;
+    height: 1100px;
     border: 1px solid #999;
     overflow: hidden;
     
 }
+
 #keywordMap1 {
     margin:10px;
     position: relative;
@@ -139,30 +146,30 @@ textarea {
     z-index: 999;
 }
 
-
 #cont {
     float: right;
     position: relative;
     width: 200px;
     height: 740px;
 }
+
 #number p #legend p{
     display: inline-block;
 }
 
 .colorPresetItem {
-     display: inline-block;
-     margin-left: 10px;
-      padding: 5px 5px 5px 5px;
+    display: inline-block;
+    margin-left: 10px;
+    padding: 5px 5px 5px 5px;
     cursor: pointer;
 }
 
 .colorPresetItem:hover {
-background-color: #ccc;
+    background-color: #ccc;
 }
 
 .colorPresetItem.selected {
-        background-color: #999;
+    background-color: #999;
 }
 
 .legened-item {
@@ -174,7 +181,7 @@ background-color: #ccc;
 }
 
 .legened-item.selected {
-        background-color: #999;
+    background-color: #999;
 }
 
 footer {
@@ -186,16 +193,14 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-
 }
+
 .mainWraper {
-    position:relative;
+    position: relative;
     height: 1140px;
-    padding-top:0px;
+    padding-top: 0px;
     margin-top: -10px;
-
 }
-
 
 .learn-more {
     background-image: url(../img/learnmore.png);
@@ -205,46 +210,33 @@ footer {
     float: right;
     cursor: pointer;
 }
+
 .learn-more:hover {
     background-position: 0 -18px;
 }
 
-
 .loader {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
     margin-left:30%;
     margin-top: 8%;
     position: relative;
     width: 40%; 
     height: 40%;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
 }
 
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* ==========================================================================
    Helper classes
