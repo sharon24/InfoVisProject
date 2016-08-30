@@ -57,6 +57,7 @@
 		{ Id: 51, ShortName: 'PR', FullName: 'Puerto Rico' }
 		]
 	});
+
 	angular.module('selectedNumberOfClasses', [])
 	app.controller('MainController',['$scope','$window','$http','Constants',function($scope,$window,$http,Constants) {
 		var polarity,max,min;
@@ -75,7 +76,7 @@
 		const maxOpacity = 0.50;
 		var range;
 		$scope.ranges = [];
-		var ranges =[]
+		var ranges = []
 		var polaritySumArr = [];
 		var polarityCountArr = [];
 		var polarityAvgArr = [];
@@ -85,72 +86,62 @@
 		var range2PolaritySum = [];
 		var range2PolarityCount = [];
 		var range2PolarityAvg = [];
-		$scope.numberInEachRange=[];
+		$scope.numberInEachRange = [];
 		$scope.firstname = "John";
-
-	 
-
 		var ColorScheme;
-
 		var baseColor1 = [1,133,113];
 		var baseColor2 = [166,97,26];
 		var opacityRange;
 
-
-		if (typeof(localStorage.srcString) === "undefined"   ) {
-			localStorage.srcString = "Barack Obama";
-			
+		if (typeof(localStorage.srcString) === "undefined") {
+			localStorage.srcString = "Barack Obama";			
 		}
-		$scope.subject=localStorage.srcString;
+		$scope.subject = "Search term: " + localStorage.srcString;
 
-
-	
-
-		if (typeof(localStorage.date1start) === "undefined" || localStorage.date1start === "Invalid Date"    ) {
-			localStorage.date1start = new Date ("01/01/2016");
+		if ((typeof(localStorage.date1start) === "undefined") || (localStorage.date1start === "Invalid Date")) {
+			localStorage.date1start = new Date("01/01/2016");
 		}
-		$scope.date1start=new Date(localStorage.date1start);
+		$scope.date1start = new Date(localStorage.date1start);
+		if ((typeof(localStorage.date1end) === "undefined") || (localStorage.date1end === "Invalid Date")) {
+			localStorage.date1end = new Date("03/31/2016");
+		}
+		$scope.date1end = new Date(localStorage.date1end);
+		if ((typeof(localStorage.date2start) === "undefined") || (localStorage.date2start === "Invalid Date")) {
+			localStorage.date2start = new Date("04/01/2016");
+		}
+		$scope.date2start = new Date(localStorage.date2start);
+		if ((typeof(localStorage.date2end) === "undefined") || (localStorage.date2end === "Invalid Date")) {
+			localStorage.date2end = new Date("08/28/2016");
+		}
+		$scope.date2end = new Date(localStorage.date2end);
 
-		if ( typeof(localStorage.date1end) === "undefined" || localStorage.date1end === "Invalid Date"   ) {
-			localStorage.date1end = new Date ("03/31/2016");
-		}
-		$scope.date1end=new Date(localStorage.date1end);
-		if ( typeof(localStorage.date2start) === "undefined"  || localStorage.date2start === "Invalid Date"  ) {
-			localStorage.date2start = new Date ("04/01/2016");
-		}
-		$scope.date2start=new Date(localStorage.date2start);
-		if ( typeof(localStorage.date2end) === "undefined" || localStorage.date2end === "Invalid Date"  ) {
-			localStorage.date2end = new Date ("08/28/2016");
-		}
-
-	
-		$scope.date2end=new Date(localStorage.date2end);
-		
 		if (localStorage.addedNewColor === "true") {
 			$scope.presetsColors.push({cBlindSupported:false,col1:[localStorage.R1,localStorage.G1,localStorage.B1],col2:[localStorage.R2,localStorage.G2,localStorage.B2]});
-			$scope.numberOfPresetsColor=10;
+			$scope.numberOfPresetsColor = 10;
 		}
 
+		//
 		$scope.legendPicked = function(index) { 
 			sColors = all(".legened-item");
 			if (sColors[index].className.includes("selected")) {
 				sColors[index].className = "legened-item";
-			} else  {
+			} else {
 				sColors[index].className = "legened-item selected";
 			}
-
-				var element = document.getElementById("keywordMap1");
-				element.parentNode.removeChild(element);
-				element=document.getElementById("map-container");
-				element.innerHTML= "<div id=\"keywordMap1\" ></div>";
-				DataMapInit();
+			var element = document.getElementById("keywordMap1");
+			element.parentNode.removeChild(element);
+			element = document.getElementById("map-container");
+			element.innerHTML= "<div id=\"keywordMap1\" ></div>";
+			DataMapInit();
 		}
 
+		//
 		$scope.updateNumberOfClasses = function(selected) {
 			$scope.numberOfRanges = Math.sqrt(selected);
 			callback();
 		}
 
+		//
 		$scope.colorCheckChange = function(status) {
 			$scope.seed = Math.floor((Math.random() * 100) + 1); 
 			$scope.runColorTest = status;
@@ -162,20 +153,21 @@
 			DataMapInit();
 		}
 
+		// Change color by user picked color scheme
 		$scope.colorPicked = function(index) {
 			$scope.colorPickedByUser = index;
 
 			sColorsLegend = all(".legened-item");
-			for (i=0;i<sColorsLegend.length;i++) {
-				sColorsLegend[i].className="legened-item";
+			for (i = 0; i < sColorsLegend.length; i++) {
+				sColorsLegend[i].className = "legened-item";
 			}
 
 			var cIndex = index;
-			for (var j=0; j<$scope.numberOfRanges; j++) {
-				for (var q=0; q<$scope.numberOfRanges; q++) {
-					var key ='c' +(j*$scope.numberOfRanges+q+1)
-					ColorScheme[key]="rgba(" +$scope.colorRanges[cIndex][j][q][0] + "," +$scope.colorRanges[cIndex][j][q][1]
-						+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," +$scope.colorRanges[cIndex][j][q][3]+')';
+			for (var j = 0; j < $scope.numberOfRanges; j++) {
+				for (var q = 0; q < $scope.numberOfRanges; q++) {
+					var key ='c' + (j*$scope.numberOfRanges+q+1)
+					ColorScheme[key] = "rgba(" + $scope.colorRanges[cIndex][j][q][0] + "," + $scope.colorRanges[cIndex][j][q][1]
+						+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," + $scope.colorRanges[cIndex][j][q][3] + ')';
 				}
 			}
 		
@@ -184,14 +176,13 @@
 			element = document.getElementById("map-container");
 			element.innerHTML = "<div id=\"keywordMap1\" ></div>";
 			DataMapInit();
-			 element = document.getElementById("loader");
-			 if (element != null ) {
-			element.parentNode.removeChild(element);
-				}
+			element = document.getElementById("loader");
+			if (element != null ) {
+				element.parentNode.removeChild(element);
+			}
 
 			sColor=$(".colorPresetItem.selected");
 			if (sColor != null) {
-
 				if (sColor.className.includes("ng-hide")) {
 					sColor.className = "colorPresetItem ng-hide";
 				} else {
@@ -199,50 +190,50 @@
 				}
 			}
 
-			sColors=all(".colorPresetItem");
+			sColors = all(".colorPresetItem");
 			sColors[index].className = "colorPresetItem selected";
 		}
 
+		// 
 		function $(selector) {
 			return document.querySelector(selector);
 		}
 
+		// 
 		function all(selector) {
 			return document.querySelectorAll(selector);
 		}
 		
+		// Check search query
 		function checkName(data,searchString) {
-
-
-if (searchString.trim().length ==0) {
-	return true;
-}
-			
-			if (typeof(data['emm:entity']) != "undefined" ) {
-				if (typeof(data['emm:entity'][0]) != "undefined" ) {	
-					for (g=0;g<data['emm:entity'].length;g++) {
-						if (data['emm:entity'][g].name.toLowerCase() === searchString.toLowerCase() ) {
+			if (searchString.trim().length == 0) {
+				return true;
+			}
+			if (typeof(data['emm:entity']) != "undefined") {
+				if (typeof(data['emm:entity'][0]) != "undefined") {	
+					for (g = 0; g < data['emm:entity'].length; g++) {
+						if (data['emm:entity'][g].name.toLowerCase() === searchString.toLowerCase()) {
 							return true;	
 						}
 					}	 
 				} else {
-					if (data['emm:entity'].name.toLowerCase() === searchString.toLowerCase() ) {
-					return true;
-					} 
+					if (data['emm:entity'].name.toLowerCase() === searchString.toLowerCase()) {
+						return true;
+					}
 				}
 			}
-
-			if (typeof(data['nlp:entity']) != "undefined" ) {
+			if (typeof(data['nlp:entity']) != "undefined") {
 				if (typeof(data['nlp:entity']["PERSON"]) != "undefined") {
-					for (g=0;g<data['nlp:entity']["PERSON"].length;g++) {
-						if (data['nlp:entity']["PERSON"][g].toLowerCase() === searchString.toLowerCase() ) {
-								return true;
+					for (g = 0; g < data['nlp:entity']["PERSON"].length; g++) {
+						if (data['nlp:entity']["PERSON"][g].toLowerCase() === searchString.toLowerCase()) {
+							return true;
 						}
 					}
 				}
 			}
 		}
 
+		// Initializes the polarity arrays
 		function initializeArray() {
 			for (i = 0; i <= 51; i++) {
 				polaritySumArr[i] = 0;
@@ -251,6 +242,7 @@ if (searchString.trim().length ==0) {
 			}
 		}
 
+		// Initializes the polarity arrays
 		function InitializeRangeArray() {
 			for (i = 0; i <= 51; i++) {
 				range1PolaritySum[i] = 0;
@@ -262,7 +254,7 @@ if (searchString.trim().length ==0) {
 			}
 		}
 
-		//calculate average polarity of each state
+		// Calculate average polarity of each state
 		function calcRangeAvg() {
 			var polarity1Sum,polarity2Sum;
 			var polarity1Count,polarity2Count;
@@ -299,9 +291,9 @@ if (searchString.trim().length ==0) {
 				}
 			}
 			console.log("calculated range avgs");
-			
 		}
 
+		// Continue the running after stopping
 		function callback () { 
 			console.log('all done');
 			printRanges();
@@ -310,25 +302,20 @@ if (searchString.trim().length ==0) {
 			angular.element(document).ready(function() {
     			$scope.colorPicked(0);
 			});
-			
 		}
 
+		// 
 		function countInEachRange() {
-
-
-			for (i=0;i<16;i++) {
-				$scope.numberInEachRange[i]=0;
+			for (i = 0; i < 16; i++) {
+				$scope.numberInEachRange[i] = 0;
 			}	
-
-
-			for (i = 0; i<=51; i++) {
-
-				for (k=0;k<$scope.numberOfRanges;k++) {
-					for  (j=0;j<$scope.numberOfRanges;j++) {
-						if (range1PolarityAvg[i] <= ranges[j][1] &&range2PolarityAvg[i] <= ranges[k][1]) {
+			for (i = 0; i <= 51; i++) {
+				for (k = 0; k < $scope.numberOfRanges; k++) {
+					for (j = 0; j < $scope.numberOfRanges; j++) {
+						if ((range1PolarityAvg[i] <= ranges[j][1]) && (range2PolarityAvg[i] <= ranges[k][1])) {
 							$scope.numberInEachRange[(k+j*$scope.numberOfRanges)]++;
-							j=$scope.numberOfRanges;
-							k=$scope.numberOfRanges;
+							j = $scope.numberOfRanges;
+							k = $scope.numberOfRanges;
 						}
 					}
 				}
@@ -337,6 +324,7 @@ if (searchString.trim().length ==0) {
 
 		var itemsProcessed = 0;
 
+		// Get the data from the DB and filter by search query/dates
 		function getData(srcString) {
 			var stateID;
 			var searchString = srcString;
@@ -347,12 +335,10 @@ if (searchString.trim().length ==0) {
 					for (i = 0; i < data.length; i++) {
 						polarity = data[i].polarity;
 						if (checkName(data[i],searchString)) {
-
 							var currDateStr = data[i]['dc:date'];
 							var split1 = currDateStr.split("T");
 							var split2 = split1[0].split("-");
 							var currDate = new Date(split2[0],split2[1]-1,split2[2]);
-					
 
 							if ((currDate >= new Date(localStorage.date1start)) && (currDate <= new Date(localStorage.date1end))) {
 								polarity1 = data[i].polarity;
@@ -378,6 +364,7 @@ if (searchString.trim().length ==0) {
 			console.log("data recieved");
 		}
 
+		// Filter by date ranges
 		$scope.filterData = function() {
 			console.log("filtering");
 			var StateID;
@@ -394,33 +381,31 @@ if (searchString.trim().length ==0) {
 			var range2end = range2endstr.split("/");
 			var date2end = new Date(range2end[2],range2end[0]-1,range2end[1]);
 
-
-localStorage.date1start=new Date (date1start);
-localStorage.date2start=new Date (date2start);
-localStorage.date1end=new Date (date1end);
-localStorage.date2end=new Date (date2end);
-location.reload(); 
-
+			localStorage.date1start = new Date(date1start);
+			localStorage.date2start = new Date(date2start);
+			localStorage.date1end = new Date(date1end);
+			localStorage.date2end = new Date(date2end);
+			location.reload(); 
 		}
 
+		// Check ranges
 		function printRanges() {
 			calcRangeAvg();
-			if (max1>=max2) {
-				max=max1;
+			if (max1 >= max2) {
+				max = max1;
 			} else {
-				max=max2;
+				max = max2;
 			}
 
-			if (min1>=min2) {
-				min=min1;
+			if (min1 >= min2) {
+				min = min1;
 			} else {
-				min=min2;
+				min = min2;
 			}
 			console.log("min=");
 			console.log(min);
 			console.log("  max=");
 			console.log(max);
-			
 
 			if (max >= 0 && min >= 0) {
 				range = max-min;
@@ -430,36 +415,38 @@ location.reload();
 				range = math.abs(max)-math.abs(min);
 			}
 
-			var numOfRanges=$scope.numberOfRanges;
+			var numOfRanges = $scope.numberOfRanges;
 			for (i = 0; i < numOfRanges; i++) {
-				ranges[i]=[];
-				ranges[i][0]=min+i*range/numOfRanges;
-				ranges[i][1]=min+(i+1)*range/numOfRanges;
-				console.log("range "+(i+1) +":" +ranges[i][0] +"-"+ranges[i][1]);
+				ranges[i] = [];
+				ranges[i][0] = min+i*range/numOfRanges;
+				ranges[i][1] = min+(i+1)*range/numOfRanges;
+				console.log("range " + (i+1) + ":" + ranges[i][0] + "-" + ranges[i][1]);
 
-				$scope.ranges[i]=[];
-				$scope.ranges[i][0] =(parseFloat(ranges[i][0])).toFixed(2);
-				$scope.ranges[i][1] =(parseFloat(ranges[i][1])).toFixed(2);
+				$scope.ranges[i] = [];
+				$scope.ranges[i][0] = (parseFloat(ranges[i][0])).toFixed(2);
+				$scope.ranges[i][1] = (parseFloat(ranges[i][1])).toFixed(2);
 			}
 		}
 
+		// Calculates the new color
 		function calc2dOpacity (colorIndex,op1,op2) {
 			var newOp = op1+(op2*(1-op1));
 			var r = Math.round(($scope.presetsColors[colorIndex].col1[0]*op1+$scope.presetsColors[colorIndex].col2[0]*op2*(1-op1))/newOp);
-			if (r>255) {
-				r=255;
+			if (r > 255) {
+				r = 255;
 			}
 			var b = Math.round(($scope.presetsColors[colorIndex].col1[1]*op1+$scope.presetsColors[colorIndex].col2[1]*op2*(1-op1))/newOp);
-			if (b>255) {
-				b=255;
+			if (b > 255) {
+				b = 255;
 			}
 			var g = Math.round(($scope.presetsColors[colorIndex].col1[2]*op1+$scope.presetsColors[colorIndex].col2[2]*op2*(1-op1))/newOp);
-			if (g>255) {
-				g=255;
+			if (g >255) {
+				g = 255;
 			}
 			return [r,b,g,newOp];
 		}
 
+		// Set a new color scheme
 		function setColorScheme() {
 			range = (maxOpacity-minOpacity)/($scope.numberOfRanges-1);
 			var opacityRange = [];
@@ -467,20 +454,18 @@ location.reload();
 			for (i = 0; i < $scope.numberOfRanges; i++) {
 				opacityRange[i]=minOpacity+i*range;
 			}
-
-			for (var i=0;i<$scope.numberOfPresetsColor;i++) {
-				$scope.colorRanges[i]=[];
+			for (var i = 0; i < $scope.numberOfPresetsColor; i++) {
+				$scope.colorRanges[i] = [];
 			}
-
-			for (var i=0;i<$scope.numberOfPresetsColor;i++) {
-				for (var j=0; j<$scope.numberOfRanges; j++) {
-					$scope.colorRanges[i][j]=[];
+			for (var i = 0; i < $scope.numberOfPresetsColor; i++) {
+				for (var j = 0; j < $scope.numberOfRanges; j++) {
+					$scope.colorRanges[i][j] = [];
 				}
 			}
-			for (var i=0;i<$scope.numberOfPresetsColor;i++) {
-				for (var j=0; j<$scope.numberOfRanges; j++) {
-					for (var q=0; q<$scope.numberOfRanges; q++) {
-						$scope.colorRanges[i][j][q]=calc2dOpacity(i,opacityRange[j],opacityRange[q]);
+			for (var i = 0;i<$scope.numberOfPresetsColor;i++) {
+				for (var j = 0; j<$scope.numberOfRanges; j++) {
+					for (var q = 0; q < $scope.numberOfRanges; q++) {
+						$scope.colorRanges[i][j][q] = calc2dOpacity(i,opacityRange[j],opacityRange[q]);
 					}
 
 				}
@@ -491,7 +476,7 @@ location.reload();
 				c2:'',
 				c3:'',
 				c4:'',
-				c5 :'',
+				c5:'',
 				c6:'',
 				c7:'',
 				c8:'',
@@ -505,20 +490,22 @@ location.reload();
 				c16:'',
 			};
 			var cIndex = 0;
-			for (var j=0; j<$scope.numberOfRanges; j++) {
-				for (var q=0; q<$scope.numberOfRanges; q++) {
-					var key ='c' +(j*$scope.numberOfRanges+q+1)
-					ColorScheme[key]="rgba(" +$scope.colorRanges[cIndex][j][q][0] + "," +$scope.colorRanges[cIndex][j][q][1]
-						+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," +$scope.colorRanges[cIndex][j][q][3]+')';
+			for (var j = 0; j < $scope.numberOfRanges; j++) {
+				for (var q = 0; q < $scope.numberOfRanges; q++) {
+					var key = 'c' + (j*$scope.numberOfRanges+q+1)
+					ColorScheme[key] = "rgba(" + $scope.colorRanges[cIndex][j][q][0] + "," + $scope.colorRanges[cIndex][j][q][1]
+						+ "," +	$scope.colorRanges[cIndex][j][q][2] + "," + $scope.colorRanges[cIndex][j][q][3]+')';
 				}
 			}
 		}
 
+		// Initializes the defaulet site color schemes
 		$scope.initDefaultColors = function() {
 			sColor=$(".colorPresetItem");
 			sColor.className="colorPresetItem selected";
 		}
 		
+		// Filter the DB with the new search wuery
 		$scope.executeQuery = function(person) {
 			localStorage.srcString = person;
 			location.reload(); 
@@ -529,6 +516,7 @@ location.reload();
 		function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
 		function cutHex(h) {return (h.charAt(0) == "#") ? h.substring(1,7):h}
 
+		// Add a new color scheme. also saved in local storage
 		$scope.addNewColor = function(col1,col2) {
 			R1 = hexToR(col1);
 			G1 = hexToG(col1);
@@ -548,34 +536,35 @@ location.reload();
 			location.reload();
 		}
 
+		// Set the color of a state
 		function setColorByIndex(index) {
 			sColors = all(".legened-item");
 			isSelcted = $(".legened-item.selected");
 
-			for (i=0;i<$scope.numberOfRanges;i++) {
-				for  (j=0;j<$scope.numberOfRanges;j++) {
-				if ($scope.runColorTest === true) {
-					index = (($scope.seed + index) %($scope.numberOfRanges*$scope.numberOfRanges) )+1;
-					if (sColors[index-1].className.includes("selected")   ||  isSelcted==null) { 
-						return ("c" + (index));
-					} else {
-						return ("black");
-					}
-				} else {
-					if (range1PolarityAvg[index] <= ranges[j][1] &&range2PolarityAvg[index] <= ranges[i][1]) {
-						if (sColors[i+j*$scope.numberOfRanges].className.includes("selected")  ||  isSelcted==null ) {
-							return ("c" + (i+j*$scope.numberOfRanges+1));
+			for (i = 0; i < $scope.numberOfRanges; i++) {
+				for  (j = 0; j < $scope.numberOfRanges; j++) {
+					if ($scope.runColorTest === true) {
+						index = (($scope.seed + index) % ($scope.numberOfRanges*$scope.numberOfRanges))+1;
+						if ((sColors[index-1].className.includes("selected")) || (isSelcted == null)) { 
+							return ("c" + (index));
 						} else {
 							return ("black");
+						}
+					} else {
+						if ((range1PolarityAvg[index] <= ranges[j][1]) && (range2PolarityAvg[index] <= ranges[i][1])) {
+							if ((sColors[i+j*$scope.numberOfRanges].className.includes("selected")) || (isSelcted == null)) {
+								return ("c" + (i+j*$scope.numberOfRanges+1));
+							} else {
+								return ("black");
+							}
 						}
 					}
 				}
 			}
 		}
-		}
 
+		// Initiate the data map
 		function DataMapInit () {
-
 			var keywordMap1 = new Datamap({
 				scope: 'usa',
 				element: document.getElementById("keywordMap1"),
