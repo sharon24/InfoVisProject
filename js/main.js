@@ -120,7 +120,7 @@
 			$scope.numberOfPresetsColor = 10;
 		}
 
-		//
+		//filter acording to legend 
 		$scope.legendPicked = function(index) { 
 			sColors = all(".legened-item");
 			if (sColors[index].className.includes("selected")) {
