@@ -121,7 +121,7 @@ textarea {
 #map-container {
     margin-left: 264px;
     position: relative;
-    height: 1100px;
+    height: 1160px;
     border: 1px solid #999;
     overflow: hidden;
     
@@ -136,11 +136,10 @@ textarea {
 
 #left {
     width: 300px;
-    height: 1100px;
+    height: 1160px;
     float: left;
     border-left: 1px solid #999;
     border-bottom: 1px solid #999;
-    overflow: hidden;
     background-color: #fff;
     position: relative;
     z-index: 999;
@@ -197,7 +196,7 @@ footer {
 
 .mainWraper {
     position: relative;
-    height: 1140px;
+    height: 1200px;
     padding-top: 0px;
     margin-top: -10px;
 }
@@ -214,6 +213,19 @@ footer {
 .learn-more:hover {
     background-position: 0 -18px;
 }
+
+.hover_img a { 
+
+ 
+}
+.hover_img a span { 
+  position:absolute; display:none; z-index:99; 
+  left: 0px;
+  top: 0px;  
+}
+.hover_img a:hover span {
+  display:block;
+ }
 
 .loader {
     border: 16px solid #f3f3f3;
