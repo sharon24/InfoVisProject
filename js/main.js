@@ -53,8 +53,8 @@
 		{ Id: 47, ShortName: 'WV', FullName: 'West Virginia' },
 		{ Id: 48, ShortName: 'WI', FullName: 'Wisconsin' },
 		{ Id: 49, ShortName: 'WY', FullName: 'Wyoming' },
-		{ Id: 50, ShortName: 'DC', FullName: 'District of Columbia' },
-		{ Id: 51, ShortName: 'PR', FullName: 'Puerto Rico' }
+		{ Id: 50, ShortName: 'DC', FullName: 'District of Columbia' }
+		
 		]
 	});
 
@@ -143,9 +143,25 @@
 
 		//
 		$scope.colorCheckChange = function(status) {
+			if (status === false  ) {
+			countInEachRange();
+			}
+
+
+
+
 			$scope.seed = Math.floor((Math.random() * 100) + 1); 
 			$scope.runColorTest = status;
-
+			if (status === true) {
+				for (i = 0; i < 16; i++) {
+					$scope.numberInEachRange[i] = 0;
+				}	
+				for (i = 0; i <= 50; i++) {
+					index = (($scope.seed + i) % ($scope.numberOfRanges*$scope.numberOfRanges));
+					$scope.numberInEachRange[index]++;
+				}
+			}
+		
 			var element = document.getElementById("keywordMap1");
 			element.parentNode.removeChild(element);
 			element = document.getElementById("map-container");
@@ -235,7 +251,7 @@
 
 		// Initializes the polarity arrays
 		function initializeArray() {
-			for (i = 0; i <= 51; i++) {
+			for (i = 0; i <= 50; i++) {
 				polaritySumArr[i] = 0;
 				polarityCountArr[i] = 0;
 				polarityAvgArr[i] = 1;
@@ -244,7 +260,7 @@
 
 		// Initializes the polarity arrays
 		function InitializeRangeArray() {
-			for (i = 0; i <= 51; i++) {
+			for (i = 0; i <= 50; i++) {
 				range1PolaritySum[i] = 0;
 				range1PolarityCount[i] = 0;
 				range1PolarityAvg[i] = 0;
@@ -259,7 +275,7 @@
 			var polarity1Sum,polarity2Sum;
 			var polarity1Count,polarity2Count;
 
-			for (i = 0; i<=51; i++) {
+			for (i = 0; i<=50; i++) {
 				polarity1Sum = range1PolaritySum[i];
 				polarity1Count = range1PolarityCount[i];
 				polarity2Sum = range2PolaritySum[i];
@@ -309,7 +325,7 @@
 			for (i = 0; i < 16; i++) {
 				$scope.numberInEachRange[i] = 0;
 			}	
-			for (i = 0; i <= 51; i++) {
+			for (i = 0; i <= 50; i++) {
 				for (k = 0; k < $scope.numberOfRanges; k++) {
 					for (j = 0; j < $scope.numberOfRanges; j++) {
 						if ((range1PolarityAvg[i] <= ranges[j][1]) && (range2PolarityAvg[i] <= ranges[k][1])) {
